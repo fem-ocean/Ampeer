@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Propertycard from './Propertycard';
+import AllProperties from './AllProperties';
+
 
 
 
@@ -25,7 +27,7 @@ function Lekkiphase1(props) {
             <DropdownContent>
             
                 <DropdownItem>
-                    <Propertycard />
+                    <Propertycard house={AllProperties}/>
                 </DropdownItem>
                 
                 <DropdownItem>
@@ -54,6 +56,10 @@ const Lekkiph1Dropdown = styled.div`
     /* position: absolute; */
     margin-top: 20px;
     /* border: 1px solid blue; */
+    
+    @media(max-width: 768px){
+        /* width: 30%; */
+    }
 
 
 `
@@ -82,6 +88,11 @@ const DropdownBtn = styled.div`
         font-weight: 600;
         font-size: 16px;
         margin: auto;
+        text-align: center;
+
+        @media(max-width: 768px){
+            font-size: 10px;
+        }
     }
     &> div> i{
         margin: auto;

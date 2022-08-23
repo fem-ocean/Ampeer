@@ -6,15 +6,15 @@ import Footer from './Footer';
 
 function Home(props) {
 
-    // const ref = useRef(null);
+    const mainRef = useRef(null);
 
     // const handleClick = ref.current?.scrollIntoView({behavior:'smooth'});
     
 
   return (
     <div>
-        <Hero />
-        <Main />
+        <Hero mainRef={mainRef}/>
+        <Main ref={mainRef}/>
         <Footer />
     </div>
   )

@@ -8,7 +8,7 @@ function Child2(props) {
     <Houses>
         <Lekkiphase1 location="ONIRU"/>
         <Lekkiphase1 location="LEKKI PHASE 1"/>
-        <Lekkiphase1 location="LEKKI RIGHT"/>
+        <Lekkiphase1 location="LEKKI PHASE 1 RIGHT"/>
         <Lekkiphase1 location="IKATE"/>
         <Lekkiphase1 location="SALEM"/>
         <Lekkiphase1 location="ILASAN"/>
@@ -31,14 +31,20 @@ function Child2(props) {
 }
 
 const Houses = styled.div`
-    width: 1000px;
+    width: 100%;
     /* height: 1400px; */
     height: max-content;
     /* border: 1px solid red; */
     margin: auto;
     display: flex;
     flex-direction: column;
-    position: relative;
+    /* position: relative; */
+    /* position: absolute; */
+
+
+    @media(max-width: 768px){
+      width: 100%
+    }
 
 `
 

@@ -1,7 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
+import AllProperties from './AllProperties';
+import Property  from './AllProperties'
 
 function Propertycard(props) {
+
+//   console.log(AllProperties)
+ 
+  // let ForRent = AllProperties.Property.filter(RentOnly);
+
+  // function RentOnly(x){
+  //   return x === 'forrent'};
+//   console.log(props.house.AllProperties)
+
+
+
+  
+
+
   return (
     <Container>
         <Card>
@@ -13,6 +29,7 @@ function Propertycard(props) {
                     <div>
                         <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span>
                         <span>2 Bedroom Flat FOR RENT</span>
+                        {/* <span>{props.house}</span> */}
                     </div>
 
                     <div>

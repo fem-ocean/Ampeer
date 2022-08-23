@@ -3,44 +3,64 @@ import styled from 'styled-components';
 
 function Child1(props) {
 
-    const [state, setState] = useState(false);
+    const btngroupone = ['RENT', 'SHORTLET']
+    const housegroup = ['Shared', '1 bedrooms', '2 bedrooms', '3 bedrooms', '4+ bedrooms']
 
-    const handleClick = () =>{
-        setState(state => !state);
-    }
+    
+    const [active, setActive] = useState(btngroupone[0]);
+    const [houseType, setHouseType] = useState(housegroup[0]);
 
-    let toggleClassCheck = state? ' active':null;
+
 
   return (
-    <Selections>
-        
-        <ShortletRent>
-            <RentButton><p>FOR RENT</p></RentButton>
-            <ShortletButton onClick={handleClick}><p>FOR SHORTLET</p></ShortletButton>
-        </ShortletRent>
+    <>
+        <Selections>
+            
+            <ShortletRent> 
+                {btngroupone.map((item)=>(
+                    <RentButton
+                        key ={item}
+                        active={active===item}
+                        onClick={()=>setActive(item)}
+                        ><p>{item}</p>
+                    </RentButton>
+                ))}
+            </ShortletRent>
 
-        <HouseType>
-            <All><p>All</p></All>
-            <Shared><p>Shared</p></Shared>
-            <OneBed><p>1 bedrooms</p></OneBed>
-            <TwoBed><p>2 bedrooms</p></TwoBed>
-            <ThreeBed><p>3 bedrooms</p></ThreeBed>
-            <FourBed>4+ bedrooms</FourBed>
-        </HouseType>
+            <HouseType>
+                {housegroup.map((item)=>(
+                    <Shared
+                        key={item}
+                        houseType = {houseType ===item}
+                        onClick={()=>setHouseType(item)}
+                        >
+                        <p>{item}</p>
+                    </Shared>
+                ))} 
+            </HouseType>
 
-
-    </Selections>
+        </Selections>
+    </>
   )
 }
 
 const Selections = styled.div`
-    width: 1000px;
+    width: 95%;
     height: 198px;
     margin: auto;
     border: 1px solid #dbf2ec;
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    /* flex-wrap: wrap; */
+
+    
+
+    @media(max-width: 768px){
+            height: 400px;
+    
+    }
+
 `
 
 const ShortletRent = styled.div`
@@ -49,8 +69,22 @@ const ShortletRent = styled.div`
     /* border: 1px solid yellow; */
     margin: auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
+    
+    
+    @media(max-width: 768px){
+        flex-wrap: wrap;
+        gap: 10px;
+        height: 10px;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 140px;
+
+
+    }
+
+
     
 `
 
@@ -64,21 +98,39 @@ const HouseType = styled.div`
     align-items: center;
     justify-content: space-evenly;
 
+
+    @media(max-width: 768px){
+        flex-wrap: wrap;
+        gap: 10px;
+        height: 10px;
+        margin-top: 10px;
+
+
+    }   
+
 `
 
 const RentButton = styled.button`
-    border: none;
-    width: 300px;
+    background-color: white;
+    border: 3px solid #2c8e71;
+    width: 280px;
     height: 50px;
-    background: #2c8e71;
+    
+    ${({active})=>active && `
+        background: #2c8e71;
+        p{
+            color: #ffffff;
+        }
+    `}
+    
+
     border-radius: 4px;
-    /* box-shadow: 0px 0px 13px 4px rgba(0, 0, 0, 0.25); */
     cursor: pointer;
 
     p{
         font-size: 16px;
         font-weight: 600;
-        color: white;
+        color: 'black';
         /* font-family: 'Inter'; */
     }
 `
@@ -91,57 +143,34 @@ const ShortletButton = styled(RentButton)`
     p{
         color: #2c8e71;
     }
-`
-
-const All = styled.button`
-    border: none;
-    width: 130px;
-    height: 40px;
-    background: #2c8e71;
-    border-radius: 5px;
-    /* box-shadow: 0px 0px 13px 4px rgba(0, 0, 0, 0.25); */
-    cursor: pointer;
-
-    p{
-        font-size: 14px;
-        font-weight: 500;
-        color: white;
-        /* font-family: 'Inter'; */
-    }
+    ${({clicked})=>clicked && `
+        background: #2c8e71;
+    `}
 `
 
 const Shared = styled.button`
     border: 1px solid #2c8e71;
     width: 130px;
     height: 40px;
+    background: none;   
     border-radius: 5px;
-    background: white;
     /* box-shadow: 0px 0px 13px 4px rgba(0, 0, 0, 0.25); */
     cursor: pointer;
-
 
     p{
         font-size: 14px;
         font-weight: 500;
         color: black;
+        line-height: 0px;
         /* font-family: 'Inter'; */
     }
-`
 
-const OneBed = styled(Shared)`
-
-`
-
-const TwoBed = styled(Shared)`
-
-`
-
-const ThreeBed = styled(Shared)`
-
-`
-
-const FourBed = styled(Shared)`
-
+    ${({houseType})=>houseType && `
+        background: #2c8e71;
+        p{
+            color: #ffffff;
+        }
+    `}
 `
 
 export default Child1;

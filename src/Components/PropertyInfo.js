@@ -79,6 +79,12 @@ const Headline = styled.div`
     justify-content: space-evenly;
     margin-top: 20px;
 
+    @media(max-width: 768px){
+        flex-direction: column;
+        height: 1100px;
+        justify-content: start
+    }
+
 `
 const DescGroup = styled.div`
     width: 28%;
@@ -88,6 +94,10 @@ const DescGroup = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+
+    @media(max-width: 768px){
+        width: 100%;
+    }
 `
 
 const Description = styled.div`
@@ -151,10 +161,17 @@ const PropertyVideos = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @media(max-width: 768px){
+        width: 95%;
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
 `
 
 const Thumbnail = styled.div`
-    width: 85%;
+    width: 97%;
     height: 400px;
     /* border: 1px solid blue; */
     background-color: #24272c;
@@ -163,10 +180,21 @@ const Thumbnail = styled.div`
     background-size: cover;
     cursor: pointer;
     /* margin: auto; */
+    
+    
+    @media(max-width: 768px){
+        img{
+            width:100px;
+            
+        }
+    }
+    
 
     &>img{
         margin-left: 250px;
         margin-top: 150px;
+        
+        
     }
     
 `
@@ -179,6 +207,11 @@ const SelectThumbnail = styled.div`
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
+
+    @media(max-width: 768px){
+        justify-content: space-between;
+    }
+
     
 
 `
@@ -197,6 +230,11 @@ const StreetVideo = styled.div`
         margin: auto;
         font-weight: 600;
         color: rgba(0,0,0,0.5);
+    }
+
+    @media(max-width: 768px){
+        width: 80px;
+        
     }
 `
 

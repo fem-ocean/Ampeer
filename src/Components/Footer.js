@@ -65,6 +65,12 @@ const Container = styled.footer`
     flex-direction: column;
     margin-top: 25px;
     /* margin-bottom: 25px; */
+    @media(max-width: 768px){
+        height: 600px;
+    }
+
+    
+
 `
 const Upper = styled.div`
     /* border: 1px solid white; */
@@ -76,6 +82,13 @@ const Upper = styled.div`
     /* justify-content: center; */
     justify-content: space-around;
     align-items: center;
+
+    @media(max-width: 768px){
+        flex-direction: column;
+        gap: 10px;
+    }
+
+   
 `
 const Lower = styled.div`
     /* border: 1px solid red; */
@@ -99,6 +112,10 @@ const Lower = styled.div`
         font-weight: 400;
         color: #676767
     }
+
+    @media(max-width: 768px){
+        margin-top: 10px;
+    }
 `
 
 const One = styled.div`
@@ -115,6 +132,12 @@ const One = styled.div`
         font-size: 12px;
         font-weight: 300
     }
+    @media(max-width: 768px){
+        height: 170px;
+        width: 70%;
+    }
+
+    
 
 `
 
