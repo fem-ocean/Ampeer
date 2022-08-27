@@ -1,47 +1,90 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { auth, googleProvider, signInWithPopup } from "../firebase";
+// import { auth, googleProvider, signInWithPopup } from "../firebase";
+import { GoogleLogin, GoogleLogout} from 'react-google-login';
+import { gapi } from 'gapi-script'
+
+const clientId = '98761361459-de6kvpo6kjt8fph6kc3hosuh5pre3etk.apps.googleusercontent.com'
 
 function Header(props) {
 
   const [username, setUsername] = useState(null)
   const [displaypic, setDisplaypic] = useState(null)
   
-  const handleSignIn = () => {
-    signInWithPopup(auth, googleProvider)
-      .then((response) => {
-        console.log(response.user);
-        console.log(response.user.displayName);
-        setUsername(response.user.displayName);
-        setDisplaypic(response.user.photoURL)
+  // const handleSignIn = () => {
+  //   signInWithPopup(auth, googleProvider)
+  //     .then((response) => {
+  //       console.log(response.user);
+  //       console.log(response.user.displayName);
+  //       setUsername(response.user.displayName);
+  //       setDisplaypic(response.user.photoURL)
 
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
-      // console.log(user.photoURL)
+  //     })
+  //     .catch((err) => {
+  //       alert(err.message);
+  //     });
+  //     // console.log(user.photoURL)
 
+  // };
+
+  
+  const onSuccess = (res) => {
+    console.log('[Login Success] currentUser:', res.profileObj);
+    console.log(res.profileObj.name)
+    setUsername(res.profileObj.name)
+  }
+
+  const onFailure = (res) => {
+    console.log('[Login Failed]')
+  }
+
+  const logOutSuccess = () =>{
+    alert('You have successfully Logged out');
   };
+
+  useEffect(()=>{
+    function start(){
+      gapi.client.init({
+        clientId: clientId,
+        scope: ""
+      })
+    };
+
+    gapi.load('client:auth2', start)
+  })
+
+  // var accessToken = gapi.auth.getToken().access_token;  //foraccess token
+  
+
+  
+  
 
     
 
 
   return (
     <Container>
+      
       <LogoContainer>
         <Link to="/">
           <img src="../../Assets/AmpeerLogo.svg" alt="brand-logo" />
         </Link>
       </LogoContainer>
+
       <div>
-        {username && displaypic ?(
-          <p>Welcome {username}</p>
-        ):(<>
-            <Join>Sign up</Join>
-            <SignIn onClick={handleSignIn}>Sign In</SignIn>
-            </>
-        )}
+        {username != null ? <p><strong>Welcome</strong> {username}</p> : 
+        
+        <GoogleLogin 
+              clientId={clientId}
+              buttonText="Login"
+              onSuccess={onSuccess}
+              onFailure={onFailure}
+              cookiePolicy={'single_host_origin'}
+              style={{}}
+              isSignedIn={true}
+        /> }
+       
         
       </div>
     </Container>
@@ -136,5 +179,18 @@ const LogoContainer = styled.div`
     }
   }
 `;
+
+// const GoogleLogin = styled.li`
+//   &:hover{
+//     $(Googlelogo)
+//   }
+//   &:active {
+//     a {
+//       span {
+//         color: rgba(0, 0, 0, 0.9);
+//       }
+//     }
+//   }
+// `
 
 export default Header;

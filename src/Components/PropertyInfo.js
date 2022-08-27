@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Footer from './Footer';
 
 
 function PropertyInfo() {
@@ -50,15 +51,26 @@ function PropertyInfo() {
                 </Description>
 
                 <PayPrompt>
-                    <p>To be sure of physically inspecting and taking this property, you can view all parts of the house including the street and compound for <strong>200 Naira only.</strong></p>
+
+                    <p><bold>Cool with the interior?</bold><br />To be sure of physically inspecting and taking this property, you can view all parts of the house including the street and compound for <strong>200 Naira only.</strong></p>
                 </PayPrompt>
 
                 <PayButton>
                     <p>PAY 200</p>
                 </PayButton>
             </DescGroup>
-            
+
         </Headline> 
+
+        <div style={{marginBottom: '100px',
+             margin: 'auto',
+            //  border: '1px solid red',
+             width: '70%',
+         }}>
+            <img  src="./../../Assets/Group 2858.jpg" alt="photo" width="100%"/>
+        </div>
+
+        
         
         
                
@@ -69,7 +81,7 @@ function PropertyInfo() {
 
 const Headline = styled.div`
     width: 90%;
-    height: 600px;
+    height: 545px;
     /* border: 1px solid red; */
     position: static;
     display: flex;
