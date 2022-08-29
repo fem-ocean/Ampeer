@@ -12,7 +12,7 @@ function App(props) {
   
   
   return (
-    <Router>
+    <Router basename="/">
         
         <div className="App">
           <Header />

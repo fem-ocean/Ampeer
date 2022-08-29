@@ -52,7 +52,9 @@ function PropertyInfo() {
 
                 <PayPrompt>
 
-                    <p><bold>Cool with the interior?</bold><br />To be sure of physically inspecting and taking this property, you can view all parts of the house including the street and compound for <strong>200 Naira only.</strong></p>
+                    <p><strong>Cool with the interior?</strong></p>
+                    
+                    <p>To be sure of physically inspecting and taking this property, you can view all parts of the house including the street and compound for <strong>200 Naira only.</strong></p>
                 </PayPrompt>
 
                 <PayButton>
@@ -135,7 +137,7 @@ const Description = styled.div`
 
 const PayPrompt = styled.div`
     width: 95%;
-    height: 120px;
+    height: 180px;
     /* border: 1px solid red; */
     background-color: rgba(217,242,236,0.5);
 
