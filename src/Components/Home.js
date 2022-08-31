@@ -15,7 +15,7 @@ function Home(props) {
     <div>
         <Hero mainRef={mainRef}/>
         <Main ref={mainRef}/>
-        {/* <Footer /> */}
+        <Footer />
     </div>
   )
 }

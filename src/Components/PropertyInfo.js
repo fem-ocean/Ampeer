@@ -69,8 +69,11 @@ function PropertyInfo() {
             //  border: '1px solid red',
              width: '70%',
          }}>
-            <img  src="./../../Assets/Group 2858.jpg" alt="photo" width="100%"/>
+            <img  src="./../../Assets/Group 2858.jpg" alt="" width="100%"/>
         </div>
+
+        <Footer />
+
 
         
         
