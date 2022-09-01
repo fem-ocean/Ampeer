@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 
 function AdminLogin() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
  const handleEmailInput = (e) =>{
     setEmail(e.target.value)
@@ -16,6 +17,8 @@ function AdminLogin() {
 
   const handleFormSubmit = (e) =>{
     e.preventDefault();
+    console.warn(email, password)
+    
   }
 
   const form = {
@@ -24,6 +27,13 @@ function AdminLogin() {
     alignItems: 'spaceBetween',
     justifyContent: 'spaceEvenly',
   }
+
+  useEffect(()=>{
+    fetch('http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin', {
+      method: "POST"
+    })
+      .then()
+  },[])
 
   return (
     <div>
@@ -40,7 +50,7 @@ function AdminLogin() {
               <label styles={{marginTop:'20px'}}>password:</label>
               <input type="password" name="password" placeholder="password" value={password} onChange={handlePasswordInput} styles />
 
-              <input type="submit" value="submit" styles={{marginTop:"20px"}}/>
+              <input type="submit" value="submit" styles={{marginTop:"20px"}} />
             </form>
 
 

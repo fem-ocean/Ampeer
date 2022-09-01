@@ -29,10 +29,27 @@ function Header(props) {
   // };
 
   
-  const onSuccess = (res) => {
+  const onSuccess = async (res) => {
     console.log('[Login Success] currentUser:', res.profileObj);
-    console.log(res.profileObj.name)
-    setUsername(res.profileObj.name)
+    console.log(res.profileObj.name);
+    setUsername(res.profileObj.name);
+    
+    var id_token = res.getAuthResponse().id_token; //for id token
+    console.log(id_token) //show id token in console for debugging
+
+    //send the google user id token to the server using the POST method.
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '"http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+      console.log('Signed in as: ' + xhr.responseText);
+    };
+    xhr.send('idtoken=' + id_token);
+    
+    // await fetch("http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin", {
+    //   method: "POST",
+    //   headers:""
+    // })
   }
 
   const onFailure = (res) => {
