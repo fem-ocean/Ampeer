@@ -40,11 +40,13 @@ function Header(props) {
     //send the google user id token to the server using the POST method.
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '"http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
       console.log('Signed in as: ' + xhr.responseText);
     };
-    xhr.send('idtoken=' + id_token);
+    
+    const y = xhr.send('idtoken=' + id_token);
+    console.log('y is '+ y)
     
     // await fetch("http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin", {
     //   method: "POST",
@@ -62,13 +64,13 @@ function Header(props) {
 
   useEffect(()=>{
     function start(){
-      gapi.client.init({
+      gapi.auth2.init({
         clientId: clientId,
         scope: ""
       })
     };
 
-    gapi.load('client:auth2', start)
+    gapi.load('auth2', start)
   })
 
   // var accessToken = gapi.auth.getToken().access_token;  //foraccess token
@@ -98,8 +100,8 @@ function Header(props) {
               onSuccess={onSuccess}
               onFailure={onFailure}
               cookiePolicy={'single_host_origin'}
-              style={{}}
               isSignedIn={true}
+              className="googlelogin"
         /> }
        
         
@@ -197,17 +199,6 @@ const LogoContainer = styled.div`
   }
 `;
 
-// const GoogleLogin = styled.li`
-//   &:hover{
-//     $(Googlelogo)
-//   }
-//   &:active {
-//     a {
-//       span {
-//         color: rgba(0, 0, 0, 0.9);
-//       }
-//     }
-//   }
-// `
+
 
 export default Header;

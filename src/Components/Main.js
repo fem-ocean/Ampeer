@@ -12,13 +12,7 @@ const Main = forwardRef((props, ref) => {
   );
 });
 
-//   return (
-//     <Parent>
-//         <Child1 />
-//         <Child2 />
-//     </Parent>
-//   )
-// }
+
 
 const Parent = styled.section`
   width: 80%;

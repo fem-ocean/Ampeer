@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 function Child1(props) {
 
@@ -9,6 +10,14 @@ function Child1(props) {
     
     const [active, setActive] = useState(btngroupone[0]);
     const [houseType, setHouseType] = useState(housegroup[0]);
+
+    const handleRentButtonClick = async ()=>{
+        const {data} = await axios("http://ampeer-001-site1.gtempurl.com/api/Admin/GetCategories")
+            
+    }
+    useEffect(()=>{
+        handleRentButtonClick();
+    },[active])
 
 
 
@@ -21,7 +30,7 @@ function Child1(props) {
                     <RentButton
                         key ={item}
                         active={active===item}
-                        onClick={()=>setActive(item)}
+                        onClick={()=>{setActive(item); handleRentButtonClick()}}
                         ><p>{item}</p>
                     </RentButton>
                 ))}
@@ -135,18 +144,7 @@ const RentButton = styled.button`
     }
 `
 
-const ShortletButton = styled(RentButton)`
-    border: 3px solid #2c8e71;
-    background: none;
-    cursor: pointer;
 
-    p{
-        color: #2c8e71;
-    }
-    ${({clicked})=>clicked && `
-        background: #2c8e71;
-    `}
-`
 
 const Shared = styled.button`
     border: 1px solid #2c8e71;

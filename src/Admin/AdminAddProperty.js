@@ -51,8 +51,8 @@ function AdminAddProperty() {
                 <FormOne>    
                 <label>Category:</label>
                 <select value={category} onChange={handleCategoryChange}> 
-                    {categoryOptions.map((item)=>(
-                        <option>{item}</option>
+                    {categoryOptions.map((key,item)=>(
+                        <option key={key}>{item}</option>
                     ) )}                   
                 </select>
   
@@ -103,7 +103,6 @@ function AdminAddProperty() {
                 </FormTwo>
               
                 <div style={{margin:'auto', width: '365px'}}>
-                    {/* <input type="submit" style={style} value="Add Property" /> */}
                     <Input />
                 </div>
             </form>

@@ -4,6 +4,7 @@ import Home from "./Components/Home";
 import PropertyInfo from "./Components/PropertyInfo";
 import AdminLogin from "./Admin/AdminLogin";
 import AdminAddProperty from "./Admin/AdminAddProperty";
+import Adminhome from "./Admin/Adminhome";
 
 function App(props) {
   
@@ -22,6 +23,7 @@ function App(props) {
             <Route path="/info" element={<PropertyInfo />} /> 
             <Route path="/adminlogin" element={<AdminLogin />} /> 
             <Route path="/adminlogin/addprop" element={<AdminAddProperty />} /> 
+            <Route path="adminlogin/home" element={<Adminhome />} />
           </Routes>
           
 
