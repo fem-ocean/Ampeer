@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Child2 from "../Components/Child2";
 import { Link } from "react-router-dom";
+import EditAndDelete from "../Components/EditAndDelete";
 
 function Adminhome() {
   
@@ -14,13 +15,15 @@ function Adminhome() {
         </div>
       </AddPropertyButton>
 
-      <Child2 style={{ marginTop: "100px" }} />
+      <EditAndDelete />
+
+      <Child2 style={{ marginTop: "50px", width: "70%" }} />
     </div>
   );
 }
 
 const AddPropertyButton = styled.div`
-  width: 90%;
+  width: 85%;
   height: 110px;
   border: 4px solid #dbf2ec;
   margin: auto;

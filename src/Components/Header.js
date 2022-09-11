@@ -38,15 +38,15 @@ function Header(props) {
     console.log(id_token) //show id token in console for debugging
 
     //send the google user id token to the server using the POST method.
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '"http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function() {
-      console.log('Signed in as: ' + xhr.responseText);
-    };
+    // var xhr = new XMLHttpRequest();
+    // xhr.open('POST', '"http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin');
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.onload = function() {
+    //   console.log('Signed in as: ' + xhr.responseText);
+    // };
     
-    const y = xhr.send('idtoken=' + id_token);
-    console.log('y is '+ y)
+    // const y = xhr.send('idtoken=' + id_token);
+    // console.log('y is '+ y)
     
     // await fetch("http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin", {
     //   method: "POST",

@@ -10,6 +10,7 @@ function Lekkiphase1(props) {
 
     const[isActive, setIsActive] = useState(false)
 
+
   return (
     <Lekkiph1Dropdown>
         
@@ -100,7 +101,6 @@ const DropdownBtn = styled.div`
         font-weight: 300;
 
     }
-    
 `
 
 const DropdownContent = styled.div`

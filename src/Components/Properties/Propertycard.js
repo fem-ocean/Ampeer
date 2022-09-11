@@ -1,23 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import EditAndDelete from '../EditAndDelete';
+import { route } from "react-router-dom"
 import AllProperties from './AllProperties';
 import Property  from './AllProperties'
 
 function Propertycard(props) {
 
-//   console.log(AllProperties)
- 
-  // let ForRent = AllProperties.Property.filter(RentOnly);
+    const [property, setProperty] = useState([]);
 
-  // function RentOnly(x){
-  //   return x === 'forrent'};
-//   console.log(props.house.AllProperties)
+    //get data on refresh
+    const refreshList =()=>{
+        fetch(`process.env.REACT_APP_API_ADMIN/{properties`)
+            .then(response=>response.json())
+            .then(data =>{
+                setProperty(data)
+            })
+    }
 
+    useEffect({
+        
+    },[])
 
+    useEffect({
+        
+    })
 
   
-
-
   return (
     <Container>
         <Card>
@@ -47,6 +56,9 @@ function Propertycard(props) {
 
                 </Description>
             </CardCont>
+
+           {(window.location.href === 'http://localhost:3000/adminlogin/home' || 'https://ampeer.netlify.app/adminlogin/home') && <EditAndDelete />}
+
         </Card>
     </Container>
   )
@@ -70,6 +82,7 @@ const Card = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    /* border: 1px solid red; */
     
 `
 const CardCont = styled.div`
@@ -115,7 +128,6 @@ const Description = styled.div`
 
         font-family: 'Montserrat';
     }
-
 
 `
 
