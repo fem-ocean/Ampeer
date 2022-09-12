@@ -11,21 +11,14 @@ function Propertycard(props) {
 
     //get data on refresh
     const refreshList =()=>{
-        fetch(`process.env.REACT_APP_API_ADMIN/{properties`)
+        fetch(`process.env.REACT_APP_API_ADMIN/{properties}`)
             .then(response=>response.json())
             .then(data =>{
                 setProperty(data)
             })
     }
 
-    useEffect({
-        
-    },[])
-
-    useEffect({
-        
-    })
-
+ 
   
   return (
     <Container>
@@ -57,7 +50,8 @@ function Propertycard(props) {
                 </Description>
             </CardCont>
 
-           {(window.location.href === 'http://localhost:3000/adminlogin/home' || 'https://ampeer.netlify.app/adminlogin/home') && <EditAndDelete />}
+           {(window.location.href === 'http://localhost:3000/adminlogin/home' || 
+           window.location.href === 'https://ampeer.netlify.app/adminlogin/home') && <EditAndDelete />}
 
         </Card>
     </Container>

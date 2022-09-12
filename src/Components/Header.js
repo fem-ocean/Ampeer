@@ -59,8 +59,17 @@ function Header(props) {
   }
 
   const logOutSuccess = () =>{
-    alert('You have successfully Logged out');
-  };
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut()
+    
+    .then(()=>{
+      setUsername(null);
+      alert('You have successfully Logged out');
+    })
+
+    };
+
+
 
   useEffect(()=>{
     function start(){
@@ -71,7 +80,7 @@ function Header(props) {
     };
 
     gapi.load('auth2', start)
-  })
+  }, [username])
 
   // var accessToken = gapi.auth.getToken().access_token;  //foraccess token
   
@@ -90,22 +99,27 @@ function Header(props) {
           <img src="../../Assets/AmpeerLogo.svg" alt="brand-logo" />
         </Link>
       </LogoContainer>
-
-      <div>
-        {username != null ? <p><strong>Welcome</strong> {username}</p> : 
+      
+      {!username? 
+      <GoogleLogin 
+                clientId={clientId}
+                buttonText="Login"
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={'single_host_origin'}
+                isSignedIn={true}
+                className="googlelogin"
+          /> 
+          
+      :(
+      <>   
+      <SignOut>
+        <p><strong>Welcome</strong> {username}</p>
+        <DropDown><span onClick={logOutSuccess}>Sign Out</span></DropDown>
+      </SignOut>
+      </>
+      )}
         
-        <GoogleLogin 
-              clientId={clientId}
-              buttonText="Login"
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-              cookiePolicy={'single_host_origin'}
-              isSignedIn={true}
-              className="googlelogin"
-        /> }
-       
-        
-      </div>
     </Container>
   );
 }
@@ -123,22 +137,54 @@ const Container = styled.div`
   z-index: 100;
   background-color: white;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  margin: auto;
   /* flex-wrap: nowrap; */
 
   @media (max-width: 768px) {
     height: 90px;
   }
 
-  div {
-    margin: auto;
-    /* border: 1px solid red; */
-    display: flex;
-    @media (max-width: 768px) {
-      flex-direction: column;
+  
+`;
+
+const DropDown = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0px;
+  background: rgb(250, 250, 250);
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 10px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  width: 100px;
+  opacity: 0;
+`
+
+const SignOut = styled.div`
+  
+  margin: auto;
+  /* border: 1px solid red; */
+  display: flex;
+  position: relative;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  &:hover{
+    ${DropDown}{
+      opacity: 0.8;
+      transition-duration: 0.3s;
+      cursor: pointer;
     }
   }
-`;
+` 
+
+
+
 
 const Join = styled.a`
   font-size: 16px;
@@ -189,7 +235,7 @@ const LogoContainer = styled.div`
   /* left: 81px; */
   /* top: 30px; */
   /* border: 3px solid black; */
-  margin: auto;
+  /* margin: auto; */
   margin-top: 15px;
 
   @media (max-width: 768px) {

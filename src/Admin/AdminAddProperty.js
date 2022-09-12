@@ -1,13 +1,14 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 function AdminAddProperty() {
 
-    const categoryOptions = ['Rent', 'Shortlet']
+    const categoryOptions = ['Rent', 'Shortlet'];
 
-    const bedroomsOptions = ['Shared', '1 bedroom', '2 bedrooms', '3 bedrooms', '4+ bedrooms']
+    const bedroomsOptions = ['Shared', '1 bedroom', '2 bedrooms', '3 bedrooms', '4+ bedrooms'];
 
-    const areaOptions = [ 'Oniru', 'Lekki phase1', 'Lekki phase1 right', 'Ikate', 'Salem', 'Ilasan', 'Jakande', 'Osapa', 'Agungi', 'Ologolo', 'Igboefon', 'Idado', 'Newroad', 'Chevron', 'Conservation road', 'Orchid road', 'Ikota', 'VGC', 'Ajah', 'Sangotedo', 'Awoyaya']
+    const areaOptions = [ 'Oniru', 'Lekki phase1', 'Lekki phase1 right', 'Ikate', 'Salem', 'Ilasan', 'Jakande', 'Osapa', 'Agungi', 'Ologolo', 'Igboefon', 'Idado', 'Newroad', 'Chevron', 'Conservation road', 'Orchid road', 'Ikota', 'VGC', 'Ajah', 'Sangotedo', 'Awoyaya'];
 
 
     const [category, setCategory] = useState(categoryOptions[0]);
@@ -16,7 +17,7 @@ function AdminAddProperty() {
     const [price, setPrice] = useState('');
 
     const handleCategoryChange = (e) =>{
-        setCategory(e.target.value)
+        let selected = setCategory(e.target.value)
     }
     const handleBedroomChange = (e) =>{
         setBedrooms(e.target.value)
@@ -27,6 +28,11 @@ function AdminAddProperty() {
        
     const handlePriceChange = (e) =>{
         setPrice(e.target.value)
+    }
+
+    const SubmitForm = async() =>{
+        
+    
     }
   
     const handleFormSubmit = (e) =>{
@@ -51,22 +57,22 @@ function AdminAddProperty() {
                 <FormOne>    
                 <label>Category:</label>
                 <select value={category} onChange={handleCategoryChange}> 
-                    {categoryOptions.map((key,item)=>(
+                    {categoryOptions.map((item, key)=>(
                         <option key={key}>{item}</option>
                     ) )}                   
                 </select>
   
                 <label>Bedrooms:</label>
                 <select value={bedrooms} onChange={handleBedroomChange}>
-                    {bedroomsOptions.map((item)=>(
-                        <option>{item}</option>
+                    {bedroomsOptions.map((item, key)=>(
+                        <option key={key}>{item}</option>
                     ))}
                 </select>
   
                 <label>Area:</label>
                 <select value={area} onChange={handleAreaChange}>
-                    {areaOptions.map((item)=>(
-                        <option>{item}</option>
+                    {areaOptions.map((item, key)=>(
+                        <option key={key}>{item}</option>
                     ))}
                 </select>
 

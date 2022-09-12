@@ -15,8 +15,6 @@ function Adminhome() {
         </div>
       </AddPropertyButton>
 
-      <EditAndDelete />
-
       <Child2 style={{ marginTop: "50px", width: "70%" }} />
     </div>
   );

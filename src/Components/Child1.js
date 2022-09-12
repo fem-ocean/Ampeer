@@ -12,7 +12,8 @@ function Child1(props) {
     const [houseType, setHouseType] = useState(housegroup[0]);
 
     const handleRentButtonClick = async ()=>{
-        const {data} = await axios("http://ampeer-001-site1.gtempurl.com/api/Admin/GetCategories")
+        const {data} = await axios.get("http://ampeer-001-site1.gtempurl.com/api/Admin/GetCategories")
+        console.log(data)
             
     }
     useEffect(()=>{
