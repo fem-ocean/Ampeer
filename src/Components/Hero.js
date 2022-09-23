@@ -14,7 +14,7 @@ const Hero = ( {mainRef} ) => {
             <VidCont>
                 <Overlay></Overlay>
                 
-                <video autoPlay loop muted width="850px"  >
+                <video autoPlay loop muted playsInline width="850px"  >
                     <source src="../../Assets/AmpeerVidComp.mp4" type="video/mp4" />
                 </video>
                 
