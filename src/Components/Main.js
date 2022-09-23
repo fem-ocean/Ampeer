@@ -1,13 +1,23 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import styled from "styled-components";
 import Child1 from "./Child1";
 import Child2 from "./Child2";
 
-const Main = forwardRef((props, ref) => {
+const Main = forwardRef((props,ref) => {
+  
+  
+  const [allProperties, setAllProperties] = useState();
+
+
+
   return (
-    <Parent ref={ref}>
-      <Child1 />
-      <Child2 />
+    <Parent ref={ref}>  
+      <Child1 
+        setAllProperties={setAllProperties}
+        />
+      <Child2
+        allProperties={allProperties}
+      />
     </Parent>
   );
 });

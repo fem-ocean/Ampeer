@@ -3,12 +3,16 @@ import styled from "styled-components";
 import Child2 from "../Components/Child2";
 import { Link } from "react-router-dom";
 import EditAndDelete from "../Components/EditAndDelete";
+import { Helmet } from "react-helmet"
 
 function Adminhome() {
   
 
   return (
     <div>
+      <Helmet>
+          <title>Admin Homepage</title>
+      </Helmet>
       <AddPropertyButton>
         <div style={{ margin: "auto", width: "365px" }}>
           <Link to="/adminlogin/addprop"><Input /></Link>

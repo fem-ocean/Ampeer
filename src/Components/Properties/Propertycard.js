@@ -5,7 +5,7 @@ import { route } from "react-router-dom"
 import AllProperties from './AllProperties';
 import Property  from './AllProperties'
 
-function Propertycard(props) {
+function Propertycard({item}) {
 
     const [property, setProperty] = useState([]);
 
@@ -25,8 +25,9 @@ function Propertycard(props) {
         <Card>
             <CardCont>
                
-                    
+                 {/* item.thumbnailpicture to use the properties from item.   */}
                 <Thumbnail><img src="../../../Assets/Union.svg" alt="unionImage"/></Thumbnail>
+                
                 <Description>
                     <div>
                         <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span>

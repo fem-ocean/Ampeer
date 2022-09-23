@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
 function AdminLogin() {
@@ -18,6 +19,8 @@ function AdminLogin() {
   const handleFormSubmit = (e) =>{
     e.preventDefault();
     console.warn(email, password)
+    setLoading(true)
+
     
   }
 
@@ -28,15 +31,18 @@ function AdminLogin() {
     justifyContent: 'spaceEvenly',
   }
 
-  useEffect(()=>{
-    fetch('http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin', {
-      method: "POST"
-    })
-      .then()
-  },[])
+  // useEffect(()=>{
+  //   fetch('http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin', {
+  //     method: "POST"
+  //   })
+  //     .then()
+  // },[])
 
   return (
     <div>
+      <Helmet>
+          <title>Admin Login</title>
+      </Helmet>
         <FormHolder>
           <p>Sign in to your account</p>
 
@@ -48,9 +54,14 @@ function AdminLogin() {
               <input type="text" name="email" placeholder="Enter your email" value={email} onChange={handleEmailInput}/>
 
               <label styles={{marginTop:'20px'}}>password:</label>
-              <input type="password" name="password" placeholder="password" value={password} onChange={handlePasswordInput} styles />
+              <input type="password" name="password" placeholder="password" value={password} onChange={handlePasswordInput}  />
 
-              <input type="submit" value="submit" styles={{marginTop:"20px"}} />
+              <input type="submit" value="submit" 
+              style={{
+                'marginTop':"20px", 
+                'backgroundColor': "#2c8e71",
+                'border': 'none',
+                'color': 'white'}} />
             </form>
 
 

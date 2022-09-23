@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import Footer from './Footer';
 
@@ -6,6 +7,9 @@ import Footer from './Footer';
 function PropertyInfo() {
   return (
     <div>
+        <Helmet>
+          <title>Videos || Ampeer is Life</title>
+      </Helmet>
         <Headline>
            
             <PropertyVideos>
