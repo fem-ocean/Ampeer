@@ -159,7 +159,8 @@ const Selections = styled.div`
   /* flex-wrap: wrap; */
 
   @media (max-width: 768px) {
-    height: 450px;
+    height: 490px;
+    
   }
 `;
 
@@ -244,7 +245,8 @@ const Price = styled.div`
     flex-wrap: wrap;
     flex-direction: column;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 40px;
+    margin-bottom: 30px;
     height: 90px;
   }
 `

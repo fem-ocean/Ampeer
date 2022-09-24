@@ -31,20 +31,20 @@ function Propertycard({item}) {
                 <Description>
                     <div>
                         <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span>
-                        <span>2 Bedroom Flat FOR RENT</span>
+                        <span><p>2 Bedroom Flat FOR RENT</p></span>
                         {/* <span>{props.house}</span> */}
                     </div>
 
                     <div>
                         <span><img src="../../../Assets/location.svg" alt="locationIcon"/></span>
-                        <span>Lekki Phase 1, Lagos.</span>
+                        <span><p>Lekki Phase 1, Lagos.</p></span>
                     </div>
 
                     <div>
                         <span><img src="../../../Assets/NairaIcon.svg" alt="NairaIcon"/></span>
                         <span><img src="../../../Assets/Nairaa.svg" alt=""/></span>
-                        <span>2,500,000</span>
-                        <span>per annum</span>
+                        <span><p style={{'fontWeight': 'bold'}}>2,500,000 / annum</p></span>
+                        {/* <span className='duration'><p>per annum</p></span> */}
                     </div>
                     
 
@@ -61,7 +61,7 @@ function Propertycard({item}) {
 
 const Container = styled.div`
     height: 240px;
-    width: 90%;
+    width: 95%;
     margin: auto;
     margin-top: 10px;
     position: relative;
@@ -69,6 +69,11 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     cursor: pointer;
+
+    @media (max-width: 768px){
+        width: 95%;
+        height: 210px;
+    }
 `
 const Card = styled.div`
     width: 100%;
@@ -78,6 +83,10 @@ const Card = styled.div`
     justify-content: center;
     align-items: center;
     /* border: 1px solid red; */
+
+    @media (max-width: 768px){
+        height: 180px;
+    }
     
 `
 const CardCont = styled.div`
@@ -86,9 +95,15 @@ const CardCont = styled.div`
     /* border: 1px solid black; */
     margin: auto;
     display: flex;
-    flex-direction: rows;
+    flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-evenly;
+
+    @media (max-width:768px){
+        width: 100%;
+        justify-content: space-between;
+        height: 155px;
+    }
 `
 
 const Thumbnail = styled.div`
@@ -99,10 +114,26 @@ const Thumbnail = styled.div`
     background-image: url("../../../Assets/IMG_5243.JPG");
     background-repeat:  no-repeat;
     background-size: cover;
+    position: relative;
 
     &>img{
         margin-left: 130px;
         margin-top: 60px;
+        position: absolute;
+        /* margin: auto; */
+        /* top: 50%; */
+        /* left: 50%; */
+        
+        @media (max-width: 768px){
+            margin-left: 58px;
+            margin-top: 38px;
+            width: 50px;
+        }
+    }
+
+    @media (max-width: 768px){
+        height: 145px;
+        width: 60%;
     }
     
 `
@@ -119,9 +150,27 @@ const Description = styled.div`
 
     &>div>span{
         margin-left: 10px;
-
-
         font-family: 'Montserrat';
+
+        img{
+            display: none;
+        }
+
+        @media (max-width: 768px){
+            font-size: 10px;
+        }
+    }
+
+    &>div>span>p{
+        margin: 0px;
+    }
+
+
+    @media (max-width: 768px){
+        width: auto;
+        height: 100px;
+        margin-left: 5px;
+
     }
 
 `

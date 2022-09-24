@@ -30,3 +30,15 @@ code {
   cursor: pointer;
   box-shadow: none;
 }
+
+
+@media (max-width: 768px){
+  .price{
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 0px;
+    
+
+  }
+}
+

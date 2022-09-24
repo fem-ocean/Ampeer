@@ -72,28 +72,26 @@ function Lekkiphase1({location, locationId, allProperties}) {
             )) : null
         )}
 
-        //     <DropdownContent>
+{/* i will need to remove this below cos its hard coded */}
+             <DropdownContent>
             
-        //         <DropdownItem>
-        //             <Propertycard house={AllProperties}/>
-        //         </DropdownItem>
+                <DropdownItem>
+                 </DropdownItem>
                 
-        //         <DropdownItem>
-        //             <Propertycard />
-        //         </DropdownItem>
+                <DropdownItem>
+                     <Propertycard />
+                 </DropdownItem>
                 
-        //         <DropdownItem>
-        //             <Propertycard />
-        //         </DropdownItem>
+                 <DropdownItem>
+                     <Propertycard />
+                 </DropdownItem>
 
-        //         <DropdownItem>
-        //             <Propertycard />
-        //         </DropdownItem>
+                 <DropdownItem>
+                     <Propertycard />
+                 </DropdownItem>
 
-        //     </DropdownContent>
-        //     :()
-        // )}
-
+             </DropdownContent>
+            
         {/* {isActive && fetchProperties(categoryId, roomTypeId, locationId, startPrice, endPrice)} */}
         
     </Lekkiph1Dropdown>

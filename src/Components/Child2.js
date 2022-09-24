@@ -10,7 +10,7 @@ function Child2({allProperties}) {
   return (
     <Houses>
         <Lekkiphase1 location="ONIRU" locationId={1} allProperties={allProperties} />
-        <Lekkiphase1 location="LEKKI PHASE 1" locationId={2} allProperties={allProperties}/>
+        {/* <Lekkiphase1 location="LEKKI PHASE 1" locationId={2} allProperties={allProperties}/>
         <Lekkiphase1 location="LEKKI PHASE 1 RIGHT" locationId={3} allProperties={allProperties} />
         <Lekkiphase1 location="IKATE" locationId={4} allProperties={allProperties} />
         <Lekkiphase1 location="SALEM" locationId={5} allProperties={allProperties} />
@@ -28,7 +28,7 @@ function Child2({allProperties}) {
         <Lekkiphase1 location="IKOTA" locationId={17} allProperties={allProperties} />
         <Lekkiphase1 location="VGC" locationId={18} allProperties={allProperties} />
         <Lekkiphase1 location="AJAH" locationId={19} allProperties={allProperties} />
-        <Lekkiphase1 location="AWOYAYA" locationId={20} allProperties={allProperties} />
+        <Lekkiphase1 location="AWOYAYA" locationId={20} allProperties={allProperties} /> */}
 
     </Houses>
   )

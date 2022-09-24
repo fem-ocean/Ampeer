@@ -259,8 +259,8 @@ const FormHolder = styled.div`
   margin-top: 30px;
   margin-bottom: 50px;
 
-  @media (max-width){
-    height: 780px;
+  @media (max-width: 768px){
+    height: 800px;
   }
 `;
 
@@ -274,13 +274,19 @@ const FormOne = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+
+  @media (max-width: 768px){
+    flex-direction: column;
+    height: 290px;
+    
+  }
 `;
 
 const FormTwo = styled.div`
   width: 95%;
   height: 300px;
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   flex-direction: row;
   /* border: 3px solid blue; */
   justify-content: space-evenly;
@@ -290,15 +296,23 @@ const FormTwo = styled.div`
 
   @media (max-width:768px){
     margin-bottom: 40px;
+    flex-direction: column;
   }
 `;
 
 const BoxOne = styled.div`
-  width: 500px;
+  width: 400px;
   height: 100px;
   position: relative;
   /* border: 1px solid red; */
   background: rgba(219, 242, 236, 0.2);
+
+  @media (max-width: 768px){
+    width: 95%;
+    label{
+      font-size: 12px;
+    }
+  }
 `;
 
 const BoxTwo = styled(BoxOne)``;

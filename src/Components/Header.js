@@ -93,33 +93,34 @@ function Header(props) {
 
   return (
     <Container>
+
+      <Wrapper>
+        <LogoContainer>
+          <Link to="/">
+            <img src="../../Assets/AmpeerLogo.svg" alt="brand-logo" />
+          </Link>
+        </LogoContainer>
       
-      <LogoContainer>
-        <Link to="/">
-          <img src="../../Assets/AmpeerLogo.svg" alt="brand-logo" />
-        </Link>
-      </LogoContainer>
-      
-      {!username? 
-      <GoogleLogin 
-                clientId={clientId}
-                buttonText="Login"
-                onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy={'single_host_origin'}
-                isSignedIn={true}
-                className="googlelogin"
-          /> 
-          
-      :(
-      <>   
-      <SignOut>
-        <p><strong>Welcome</strong> {username}</p>
-        <DropDown><span onClick={logOutSuccess}>Sign Out</span></DropDown>
-      </SignOut>
-      </>
-      )}
-        
+        {!username? 
+        <GoogleLogin 
+                  clientId={clientId}
+                  buttonText="Login"
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
+                  cookiePolicy={'single_host_origin'}
+                  isSignedIn={true}
+                  className="googlelogin"
+            />    
+        :(
+        <>   
+        <SignOut>
+          <p><strong>Welcome</strong> {username}</p>
+          <DropDown><span onClick={logOutSuccess}>Sign Out</span></DropDown>
+        </SignOut>
+        </>
+        )}
+
+       </Wrapper>
     </Container>
   );
 }
@@ -137,16 +138,30 @@ const Container = styled.div`
   z-index: 100;
   background-color: white;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   margin: auto;
   /* flex-wrap: nowrap; */
 
   @media (max-width: 768px) {
     height: 90px;
+    
   }
 
   
 `;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 85vw;
+  justify-content: space-between;
+  @media (max-width: 768px){
+    
+    margin: auto
+  }
+`
+
 
 const DropDown = styled.div`
   position: absolute;
@@ -169,6 +184,10 @@ const SignOut = styled.div`
   /* border: 1px solid red; */
   display: flex;
   position: relative;
+
+  p{
+    text-align: left;
+  }
   
   @media (max-width: 768px) {
     flex-direction: column;
@@ -229,7 +248,7 @@ const SignIn = styled.a`
 `;
 
 const LogoContainer = styled.div`
-  width: 60%;
+  width: 80%;
   height: 80%;
   position: relative;
   /* left: 81px; */
@@ -240,7 +259,7 @@ const LogoContainer = styled.div`
 
   @media (max-width: 768px) {
     img {
-      width: 150px;
+      width: 100px;
     }
   }
 `;

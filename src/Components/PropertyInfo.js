@@ -201,11 +201,16 @@ const Thumbnail = styled.div`
     background-size: cover;
     cursor: pointer;
     /* margin: auto; */
+    position: relative;
     
     
     @media(max-width: 768px){
         img{
-            width:100px;
+            width:80px;
+            position: absolute;
+            top: 5%;
+            left: -40%;
+
             
         }
     }
@@ -214,7 +219,7 @@ const Thumbnail = styled.div`
     &>img{
         margin-left: 250px;
         margin-top: 150px;
-        
+
         
     }
     
