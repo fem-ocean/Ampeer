@@ -207,6 +207,7 @@ const RentButton = styled.button`
   width: 150px;
   height: 42px;
   text-align: center;
+
   
 
 
@@ -225,7 +226,7 @@ const RentButton = styled.button`
   p {
     font-size: 16px;
     font-weight: 600;
-    color: "black";
+    color: black;
     /* font-family: 'Inter'; */
     line-height: 0px;
   }

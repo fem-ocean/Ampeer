@@ -53,7 +53,7 @@ const VidCont = styled.div`
     margin: auto;
     /* width: 62.5%; */
     width: 100%;
-    height: 480px;
+    height: 495px;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -103,6 +103,7 @@ const Herotext = styled.div`
         color: white;
         line-height: 50px;
         text-align: center;
+        font-family: 'montserrat';
 
         @media(max-width: 768px){
             font-size: 18px;
