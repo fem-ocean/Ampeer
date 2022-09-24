@@ -159,7 +159,7 @@ const Selections = styled.div`
   /* flex-wrap: wrap; */
 
   @media (max-width: 768px) {
-    height: 490px;
+    height: 598px;
     
   }
 `;
@@ -209,7 +209,13 @@ const RentButton = styled.button`
   text-align: center;
 
   
-
+  p {
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+    /* font-family: 'Inter'; */
+    line-height: 0px;
+  }
 
   ${({ categoryName }) =>
     categoryName &&
@@ -223,13 +229,7 @@ const RentButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
 
-  p {
-    font-size: 16px;
-    font-weight: 600;
-    color: black;
-    /* font-family: 'Inter'; */
-    line-height: 0px;
-  }
+ 
 `;
 
 const Price = styled.div`
