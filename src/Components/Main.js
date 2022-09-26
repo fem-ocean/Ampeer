@@ -6,11 +6,9 @@ import Child2 from "./Child2";
 const Main = forwardRef((props,ref) => {
   
   
-  const [allProperties, setAllProperties] = useState();
+  const [allProperties, setAllProperties] = useState({});
 
-
-
-  return (
+   return (
     <Parent ref={ref}>  
       <Child1 
         setAllProperties={setAllProperties}

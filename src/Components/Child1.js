@@ -1,80 +1,71 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import api from "../api/getProperties";
+
 
 function Child1({setAllProperties}) {
+  
   const btngroupone = ["Rent", "Shortlet"];
   
-  const housegroup = ["Shared","1 bedrooms","2 bedrooms","3 bedrooms","4+ bedrooms"];
+  const housegroup = ["Shared","1 Bedrooms","2 Bedrooms","3 Bedrooms","4+ Bedrooms"];
 
-  const minimumPriceRent = [{name:"No Minimum", value:0},{name:"N200,000", value:200000},{name:"N400,000", value:400000},{name:"N800,000", value: 800000},{name:"N1,000,000", value: 1000000},{name:"N5,000,000", value:5000000},{name:"N10,000,000",value:10000000}];
+  const minimumPriceRent = [{name:"No Minimum", value:0},{name:"N300,000", value:300000},{name:"N500,000", value:500000},{name:"N1,000,000", value: 1000000},{name:"N3,000,000", value: 3000000},{name:"N5,000,000", value:5000000},{name:"N10,000,000",value:10000000}];
 
-  const maximumPriceRent = [{name:"No Maximum", value:0},{name:"N200,000", value:200000},{name:"N400,000", value:400000},{name:"N800,000", value: 800000},{name:"N1,000,000", value: 1000000},{name:"N5,000,000", value:5000000},{name:"N10,000,000",value:10000000}];
+  const maximumPriceRent = [{name:"No Maximum", value:1000000000},{name:"N300,000", value:300000},{name:"N500,000", value:500000},{name:"N1,000,000", value: 1000000},{name:"N3,000,000", value: 3000000},{name:"N5,000,000", value:5000000},{name:"N10,000,000",value:10000000}];
 
-  const minimumPriceShortlet = [{name:"No minimum", value:0},{name:"N10,000", value:10000},{name:"N20,000", value:20000},{name:"N30,000",value:30000},{name:"N50,000", value:50000},{name:"N100,000"},{name:"N200,000", value:500000}, {name:"N500,000", value: 500000}];
+  const minimumPriceShortlet = [{name:"No minimum", value:0},{name:"N10,000", value:10000},{name:"N20,000", value:20000},{name:"N30,000",value:30000},{name:"N50,000", value:50000},{name:"N100,000", value:100000},{name:"N200,000", value:200000}, {name:"N500,000", value: 500000}];
 
-  const maximumPriceShortlet = [{name:"No maximum", value:0},{name:"N10,000", value:10000},{name:"N20,000", value:20000},{name:"N30,000",value:30000},{name:"N50,000", value:50000},{name:"N100,000"},{name:"N200,000", value:500000}, {name:"N500,000", value: 500000}];
+  const maximumPriceShortlet = [{name:"No maximum", value:1000000},{name:"N10,000", value:10000},{name:"N20,000", value:20000},{name:"N30,000",value:30000},{name:"N50,000", value:50000},{name:"N100,000"},{name:"N200,000", value:500000}, {name:"N500,000", value: 500000}];
 
  
   const [category, setCategory] = useState({categoryName: btngroupone[0]});
   const [houseType, setHouseType] = useState({houseName: housegroup[0]});
-  const [minPrice, setMinPrice] = useState({minRent: minimumPriceRent[0].value, minShortlet: minimumPriceShortlet[0].value});
-  const [maxPrice, setMaxPrice] = useState({maxRent: maximumPriceRent[0].value, maxShortlet: maximumPriceShortlet[0].value})
+  const [minPrice, setMinPrice  ] = useState(minimumPriceRent[0].value)
+  const [maxPrice, setMaxPrice  ] = useState(maximumPriceRent[0].value)
+
 
   
-  const handleDropdownChange = (e) =>{
-    setMinPrice({[e.target.name]: e.target.value})
-    setMaxPrice({[e.target.name]: e.target.value})
-
+  const handleMinDropdownChange = (e) =>{
+    setMinPrice(e.target.value)
+  }
+  const handleMaxDropdownChange = (e) =>{
+    setMaxPrice(e.target.value)
   }
 
-  const categoryId = btngroupone.indexOf(category.categoryName) + 1;
-  // console.log(categoryId);
-  const roomTypeId = housegroup.indexOf(houseType.houseName) + 1;
-  // console.log(roomTypeId);
+  const selectedCategory = category.categoryName;
+  console.log(selectedCategory);
+
+  const roomType = houseType.houseName;
+  console.log(roomType);
+
   let startPrice = minPrice;
-  // console.log(startPrice)
+  console.log(startPrice)
+  
   let endPrice = maxPrice;
-  // console.log(endPrice)
-
-  
-  // setCategoryId(categoryId);
-  // setRoomTypeId(roomTypeId);
-  // setStartPrice(startPrice);
-  // setEndPrice(endPrice);
+  console.log(endPrice);
   
 
-// const handlePropertySearch = async (e) => {
-//   e.preventDefault();
-  
-//   try{
-//       const response = (categoryId, roomTypeId, locationId, startPrice, endPrice) => {
-//          api.get('/GetAvailableProperties?categoryId={categoryId}&roomTypeId={roomTypeId}&locationId={locationId}&startPrice={startPrice}&endPrice={endPrice}')
-//       }
-//       console.log(response.data)
-//   }catch(err){
-//       console.log(err)
-//   }
 
-// }
-
- const handlePropertySearch = (categoryId, roomTypeId, locationId, startPrice, endPrice) => {
-  axios({
+ const handlePropertySearch =  () => {
+    console.log(selectedCategory);
+    console.log(roomType);
+    console.log(startPrice);
+    console.log(endPrice);
+    
+    axios({
     method: 'get',
     url: 'http://ampeer-001-site1.gtempurl.com/api/Account/GetAvailableProperties', 
-      params: {
-        categoryId: {categoryId},
-        roomTypeId: {roomTypeId},
-        locationId: 1,
-        startPrice: {startPrice},
-        endPrice: {endPrice}
+    params: {
+      categoryId: selectedCategory,
+      roomTypeId: roomType,
+      startPrice: startPrice,
+      endPrice: endPrice,
     }
   })
   .then((res) =>{ 
-    console.log(res)
-    //get all properties based on query from api and send to main.js
-    setAllProperties()
+    console.log(res.data)
+    //get all properties based on query from api and send to the parent(main.js) and then to Child2
+    setAllProperties(res.data)
   })
   .catch((err)=>console.log(err))
   }
@@ -113,36 +104,30 @@ function Child1({setAllProperties}) {
         <Price>
           <div>
             <label style={{"fontSize":"14px"}}>Minimum Price</label>
-            <select onChange={handleDropdownChange} value={minPrice.minRent}>
-                { categoryId===1? minimumPriceRent.map((price, key) =>(
-                    <option 
-                    key={key}
-                    >{price.name}</option>
+            <select onChange={handleMinDropdownChange} >
+                { selectedCategory==='Rent'? minimumPriceRent.map((price, key) =>(
+                    <option key={key} value={price.value}>{price.name}</option>
                 )):
                 minimumPriceShortlet.map((price, key) =>(
-                  <option key={key}>{price.name}</option>
+                  <option key={key} value={price.value}>{price.name}</option>
                 ))}
             </select>
           </div>
             
           <div>
             <label style={{"fontSize":"14px"}}>Maximum Price</label>
-            <select onChange={handleDropdownChange} value={maxPrice.maxRent}>
-                {categoryId===1? maximumPriceRent.map((price, key) =>(
-                    <option key={key}>{price.name}</option>
+            <select onChange={handleMaxDropdownChange}>
+                {selectedCategory==='Rent'? maximumPriceRent.map((price, key) =>(
+                    <option key={key} value={price.value}>{price.name}</option>
                 )):
                 maximumPriceShortlet.map((price, key) =>(
-                  <option key={key}>{price.name}</option>
+                  <option key={key} value={price.value}>{price.name}</option>
                 ))}
             </select>
           </div>
-            
-
         </Price>
 
         <SearchDiv><SearchButton onClick={handlePropertySearch}>Search Property</SearchButton></SearchDiv>
-
-
       </Selections>
     </>
   );

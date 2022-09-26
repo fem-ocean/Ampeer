@@ -1,51 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Propertycard from './Propertycard';
-import AllProperties from './AllProperties';
-import axios from 'axios';
-import api from "../../api/getProperties";
 
 
 
 
-function Lekkiphase1({location, locationId, allProperties}) {
+
+function Lekkiphase1({location, allProperties}) {
 
     const locationList = ["Oniru", "Lekki Phase 1", "Lekki Phase 1 (Right)", "Ikate", "Salem", "Ilasan", "Jakande", "Osapa", "Agungi", "Ologolo", "Igboefon", "Idado", "New Road", "Chevron", "Conservation Road", "Orchid", "Ikota", "VGC", "Ajah", "Awoyaya"]
 
     const[isActive, setIsActive] = useState(false);
-    // const[area, setArea] = useState()
 
-    // const [locationId, setLocationId] = useState((locationList.indexOf(area) + 1))
-    
-    // console.log(locationId)
+    // const[fetchedProperties, setFetchedProperties] = useState([]);
 
     
-//   const handleRentButtonClick = async () => {
-    // await axios
-    //   .get("http://ampeer-001-site1.gtempurl.com/api/Admin/GetCategories/")
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
-//   };
+    
 
-//   const handleHouseTypeClick = async () => {
-    // await axios
-    //   .get("http://ampeer-001-site1.gtempurl.com/api/Admin/GetRoomTypes")
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
-//   };
+    
 
 
-  //   useEffect(() => {
-  //     handleRentButtonClick();
-  //     handleHouseTypeClick();
-  //     // active && handleRentButtonClick();
-  //     // houseType && handleHouseTypeClick();
-  //   }, [category, houseType]);
+    // console.log(fetchedProperties)
+    // console.log(fetchedProperties.length)
+    // console.log(allProperties.data.location)
+
+    // let filteredProperties = allProperties.data.filter(property=>property.location === {location})
+
+    // console.log(filteredProperties)
+
+    useEffect(()=>{
+        // const result = allProperties.data;
+
+        // console.log(result)
+        // const final = result.filter(function(item){
+        //     return item.location === 'Osapa'
+        // })
+        // console.log(final)
+
+    },[])
   
 
     const handleDropdownBtnClick = (e) =>{
         setIsActive(!isActive);
     }
+
   
 
   return (
@@ -56,43 +54,44 @@ function Lekkiphase1({location, locationId, allProperties}) {
         <DropdownBtn onClick={handleDropdownBtnClick}>
             <div><p>{location}</p></div>
             <div>
-                <i>5 Properties</i>
+                <i> Properties</i>
                 {/* <img src="../../../Assets/Polygon 2.svg" alt="dropArrow"/> */}
             </div>
         </DropdownBtn>
         
         {isActive && (
             
-            locationId==allProperties.locationId?
-            allProperties.map((item)=>(
-                <DropdownContent>
-                    <Propertycard item={item}/>
-                </DropdownContent>
+            // locationId===allProperties.locationId?
+            // allProperties.map((item)=>(
+            //     <DropdownContent>
+            //         <Propertycard item={item}/>
+            //     </DropdownContent>
 
-            )) : null
+            
+            // : null
+        
+
+                    {/* i will need to remove this below cos its hard coded */}
+            //  <DropdownContent>
+            
+            //     <DropdownItem>
+            //      </DropdownItem>
+                
+            //     <DropdownItem>
+            //          <Propertycard />
+            //      </DropdownItem>
+                
+            //      <DropdownItem>
+            //          <Propertycard />
+            //      </DropdownItem>
+
+            //      <DropdownItem>
+            //          <Propertycard />
+            //      </DropdownItem>
+
+            //  </DropdownContent>
+            
         )}
-
-{/* i will need to remove this below cos its hard coded */}
-             <DropdownContent>
-            
-                <DropdownItem>
-                 </DropdownItem>
-                
-                <DropdownItem>
-                     <Propertycard />
-                 </DropdownItem>
-                
-                 <DropdownItem>
-                     <Propertycard />
-                 </DropdownItem>
-
-                 <DropdownItem>
-                     <Propertycard />
-                 </DropdownItem>
-
-             </DropdownContent>
-            
-        {/* {isActive && fetchProperties(categoryId, roomTypeId, locationId, startPrice, endPrice)} */}
         
     </Lekkiph1Dropdown>
   )
