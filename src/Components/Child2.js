@@ -8,7 +8,8 @@ import locationList  from './Properties/Lekkiphase1';
 function Child2({allProperties}) {
 
   console.log(allProperties)
-
+ 
+  
   return (
     <Houses>
         <Lekkiphase1 location="Oniru" allProperties={allProperties} />
@@ -18,7 +19,7 @@ function Child2({allProperties}) {
         <Lekkiphase1 location="Salem" allProperties={allProperties} /> 
         <Lekkiphase1 location="Ilasan" allProperties={allProperties} />
         <Lekkiphase1 location="Jakande" allProperties={allProperties} />
-        <Lekkiphase1 location="Osapa" allProperties={allProperties} />
+        <Lekkiphase1 location='Osapa' allProperties={allProperties} />
         <Lekkiphase1 location="Agungi" allProperties={allProperties} />
         <Lekkiphase1 location="Ologolo" allProperties={allProperties} />
         <Lekkiphase1 location="Igboefon" allProperties={allProperties} />

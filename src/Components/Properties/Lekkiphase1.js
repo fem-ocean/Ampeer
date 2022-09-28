@@ -12,32 +12,32 @@ function Lekkiphase1({location, allProperties}) {
 
     const[isActive, setIsActive] = useState(false);
 
+
     // const[fetchedProperties, setFetchedProperties] = useState([]);
 
     
     
-
-    
-
-
-    // console.log(fetchedProperties)
-    // console.log(fetchedProperties.length)
-    // console.log(allProperties.data.location)
-
-    // let filteredProperties = allProperties.data.filter(property=>property.location === {location})
-
-    // console.log(filteredProperties)
-
-    useEffect(()=>{
-        // const result = allProperties.data;
-
-        // console.log(result)
-        // const final = result.filter(function(item){
-        //     return item.location === 'Osapa'
-        // })
-        // console.log(final)
-
-    },[])
+        
+        //Filtering fetched properties from child1 and comparing them with location prop  in LekkiPhase1 component
+        
+            
+        console.log(allProperties.data)
+        console.log({location})
+        let locationValue = Object.values({location})
+        console.log(locationValue)
+        let area = locationValue[0]
+        console.log(area) 
+        
+            
+            
+        if (!allProperties.data){
+            var filteredProperties = []
+            // return filteredProperties
+        }
+        else{
+            var filteredProperties = allProperties.data.filter(property=>property.location === area);
+        }
+             
   
 
     const handleDropdownBtnClick = (e) =>{
@@ -54,42 +54,24 @@ function Lekkiphase1({location, allProperties}) {
         <DropdownBtn onClick={handleDropdownBtnClick}>
             <div><p>{location}</p></div>
             <div>
-                <i> Properties</i>
+                {filteredProperties? <i>{filteredProperties.length} Properties</i> :
+                <i>0 Properties</i>}
                 {/* <img src="../../../Assets/Polygon 2.svg" alt="dropArrow"/> */}
             </div>
         </DropdownBtn>
         
-        {isActive && (
-            
-            // locationId===allProperties.locationId?
-            // allProperties.map((item)=>(
-            //     <DropdownContent>
-            //         <Propertycard item={item}/>
-            //     </DropdownContent>
+        {isActive && ( 
+
+            filteredProperties.length === 0? <p>No properties available at the moment</p> : 
 
             
-            // : null
+            filteredProperties.map((item)=>(
+                <DropdownContent>
+                    <Propertycard item={item}/>
+                </DropdownContent>
+            ))
         
 
-                    {/* i will need to remove this below cos its hard coded */}
-            //  <DropdownContent>
-            
-            //     <DropdownItem>
-            //      </DropdownItem>
-                
-            //     <DropdownItem>
-            //          <Propertycard />
-            //      </DropdownItem>
-                
-            //      <DropdownItem>
-            //          <Propertycard />
-            //      </DropdownItem>
-
-            //      <DropdownItem>
-            //          <Propertycard />
-            //      </DropdownItem>
-
-            //  </DropdownContent>
             
         )}
         

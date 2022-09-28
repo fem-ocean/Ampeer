@@ -15,7 +15,7 @@ function Child1({setAllProperties}) {
 
   const minimumPriceShortlet = [{name:"No minimum", value:0},{name:"N10,000", value:10000},{name:"N20,000", value:20000},{name:"N30,000",value:30000},{name:"N50,000", value:50000},{name:"N100,000", value:100000},{name:"N200,000", value:200000}, {name:"N500,000", value: 500000}];
 
-  const maximumPriceShortlet = [{name:"No maximum", value:1000000},{name:"N10,000", value:10000},{name:"N20,000", value:20000},{name:"N30,000",value:30000},{name:"N50,000", value:50000},{name:"N100,000"},{name:"N200,000", value:500000}, {name:"N500,000", value: 500000}];
+  const maximumPriceShortlet = [{name:"No maximum", value:1000000000},{name:"N10,000", value:10000},{name:"N20,000", value:20000},{name:"N30,000",value:30000},{name:"N50,000", value:50000},{name:"N100,000"},{name:"N200,000", value:500000}, {name:"N500,000", value: 500000}];
 
  
   const [category, setCategory] = useState({categoryName: btngroupone[0]});
@@ -45,7 +45,7 @@ function Child1({setAllProperties}) {
   console.log(endPrice);
   
 
-
+  
  const handlePropertySearch =  () => {
     console.log(selectedCategory);
     console.log(roomType);

@@ -1,49 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import EditAndDelete from '../EditAndDelete';
-import { route } from "react-router-dom"
+import { Link } from "react-router-dom"
 import AllProperties from './AllProperties';
 import Property  from './AllProperties'
 
 function Propertycard({item}) {
 
-    const [property, setProperty] = useState([]);
+    console.log({item})
+
+    // const [property, setProperty] = useState([]);
 
     //get data on refresh
-    const refreshList =()=>{
-        fetch(`process.env.REACT_APP_API_ADMIN/{properties}`)
-            .then(response=>response.json())
-            .then(data =>{
-                setProperty(data)
-            })
-    }
+    // const refreshList =()=>{
+    //     fetch(`process.env.REACT_APP_API_ADMIN/{properties}`)
+    //         .then(response=>response.json())
+    //         .then(data =>{
+    //             setProperty(data)
+    //         })
+    // }
 
- 
   
   return (
-    <Container>
+    <Link to="/info"><Container>
         <Card>
             <CardCont>
                
                  {/* item.thumbnailpicture to use the properties from item.   */}
-                <Thumbnail><img src="../../../Assets/Union.svg" alt="unionImage"/></Thumbnail>
+                <Thumbnail><img src={"../../../Assets/Union.svg"} alt="unionImage"/></Thumbnail>
+                
                 
                 <Description>
                     <div>
                         <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span>
-                        <span><p>2 Bedroom Flat FOR RENT</p></span>
+                        <span><p>{item.roomType} Flat FOR {item.category}</p></span>
                         {/* <span>{props.house}</span> */}
                     </div>
 
                     <div>
                         <span><img src="../../../Assets/location.svg" alt="locationIcon"/></span>
-                        <span><p>Lekki Phase 1, Lagos.</p></span>
+                        <span><p>{item.location}, Lagos.</p></span>
                     </div>
 
                     <div>
                         <span><img src="../../../Assets/NairaIcon.svg" alt="NairaIcon"/></span>
                         <span><img src="../../../Assets/Nairaa.svg" alt=""/></span>
-                        <span><p style={{'fontWeight': 'bold'}}>2,500,000 / annum</p></span>
+                        <span><p style={{'fontWeight': 'bold'}}>N{item.amount} / annum</p></span>
                         {/* <span className='duration'><p>per annum</p></span> */}
                     </div>
                     
@@ -55,7 +57,7 @@ function Propertycard({item}) {
            window.location.href === 'https://ampeer.netlify.app/adminlogin/home') && <EditAndDelete />}
 
         </Card>
-    </Container>
+    </Container></Link>
   )
 }
 
@@ -111,7 +113,7 @@ const Thumbnail = styled.div`
     height: 200px;
     /* border: 1px solid green; */
     background-color: #24272c;
-    background-image: url("../../../Assets/IMG_5243.JPG");
+    background-image: url({item.thumbnailImageUrl});
     background-repeat:  no-repeat;
     background-size: cover;
     position: relative;
