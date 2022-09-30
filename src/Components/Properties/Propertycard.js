@@ -4,25 +4,17 @@ import EditAndDelete from '../EditAndDelete';
 import { Link } from "react-router-dom"
 import AllProperties from './AllProperties';
 import Property  from './AllProperties'
+import axios from 'axios';
 
 function Propertycard({item}) {
 
-    console.log({item})
+    console.log({item});
 
-    // const [property, setProperty] = useState([]);
+    console.log(item.propertyId)
 
-    //get data on refresh
-    // const refreshList =()=>{
-    //     fetch(`process.env.REACT_APP_API_ADMIN/{properties}`)
-    //         .then(response=>response.json())
-    //         .then(data =>{
-    //             setProperty(data)
-    //         })
-    // }
-
-  
+    
   return (
-    <Link to="/info"><Container>
+    <Link to={`/info/${item.propertyId}`}><Container>
         <Card>
             <CardCont>
                

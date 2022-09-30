@@ -126,7 +126,7 @@ function AdminAddProperty() {
       url: 'http://ampeer-001-site1.gtempurl.com/api/Admin/CreateProperty',
       // formData
       data:{
-        propertyId: '10',
+        propertyId: '11',
         category: category,
         roomType: roomType,
         location: location,

@@ -3,48 +3,38 @@ import styled from 'styled-components';
 import Propertycard from './Propertycard';
 
 
-
-
-
 function Lekkiphase1({location, allProperties}) {
 
     const locationList = ["Oniru", "Lekki Phase 1", "Lekki Phase 1 (Right)", "Ikate", "Salem", "Ilasan", "Jakande", "Osapa", "Agungi", "Ologolo", "Igboefon", "Idado", "New Road", "Chevron", "Conservation Road", "Orchid", "Ikota", "VGC", "Ajah", "Awoyaya"]
 
     const[isActive, setIsActive] = useState(false);
+    const [filteredItem, setFilteredItem] = useState([]);
 
+    console.log(filteredItem)
 
-    // const[fetchedProperties, setFetchedProperties] = useState([]);
+    console.log(allProperties.data)
+    console.log({location})
+    let locationValue = Object.values({location})
+    console.log(locationValue)
+    let area = locationValue[0]
+    console.log(area) 
+        
+            
+    //Filtering fetched properties from child1 and comparing them with location prop  in LekkiPhase1 component
+          
+    if (!allProperties.data){
+        var filteredProperties = []
+    }
+    else{
+         var filteredProperties = allProperties.data.filter(property=>property.location === area);
+    }
 
     
-    
-        
-        //Filtering fetched properties from child1 and comparing them with location prop  in LekkiPhase1 component
-        
-            
-        console.log(allProperties.data)
-        console.log({location})
-        let locationValue = Object.values({location})
-        console.log(locationValue)
-        let area = locationValue[0]
-        console.log(area) 
-        
-            
-            
-        if (!allProperties.data){
-            var filteredProperties = []
-            // return filteredProperties
-        }
-        else{
-            var filteredProperties = allProperties.data.filter(property=>property.location === area);
-        }
-             
-  
-
+    //Toggle dropdown
     const handleDropdownBtnClick = (e) =>{
         setIsActive(!isActive);
     }
 
-  
 
   return (
     
@@ -54,7 +44,8 @@ function Lekkiphase1({location, allProperties}) {
         <DropdownBtn onClick={handleDropdownBtnClick}>
             <div><p>{location}</p></div>
             <div>
-                {filteredProperties? <i>{filteredProperties.length} Properties</i> :
+                
+                {filteredProperties?  <i> {filteredProperties.length} Properties</i> :
                 <i>0 Properties</i>}
                 {/* <img src="../../../Assets/Polygon 2.svg" alt="dropArrow"/> */}
             </div>
@@ -64,17 +55,16 @@ function Lekkiphase1({location, allProperties}) {
 
             filteredProperties.length === 0? <p>No properties available at the moment</p> : 
 
-            
-            filteredProperties.map((item)=>(
-                <DropdownContent>
+            filteredProperties.map((item, key)=>(
+                <DropdownContent key={item.id}>
                     <Propertycard item={item}/>
                 </DropdownContent>
-            ))
-        
-
-            
+            ))  
+             
         )}
         
+        
+    
     </Lekkiph1Dropdown>
   )
 }

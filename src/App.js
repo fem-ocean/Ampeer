@@ -21,7 +21,7 @@ function App(props) {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/info" element={<PropertyInfo />} /> 
+            <Route path="/info/:id" element={<PropertyInfo />} /> 
             <Route path="/adminlogin" element={<AdminLogin />} /> 
             <Route path="/adminlogin/addprop" element={<AdminAddProperty />} /> 
             <Route path="adminlogin/home" element={<Adminhome />} />

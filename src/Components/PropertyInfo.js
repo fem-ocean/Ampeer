@@ -1,15 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import Footer from './Footer';
+import { useParams } from "react-router-dom";
+import axios from 'axios';
 
 
 function PropertyInfo() {
+    const {id} = useParams();
+    console.log(id)
+
+
+    const [detail, setDetail] = useState();
+    console.log(detail)
+    const [error, setError] = useState();
+
+    
+    
+    let url = `http://ampeer-001-site1.gtempurl.com/api/Admin/GetPropertyById/${id}`
+    useEffect(()=>{
+        axios({
+            method: 'get',
+            url: url,
+        })
+        .then((res)=> {
+            setDetail(res.data)
+            console.log(res.data)
+                     
+        })
+        .catch((err)=>{
+            console.log(err)
+            setError(`Something went wrong: ${err.message}`)
+        })
+    }, [url])
+    
+    
   return (
     <div>
         <Helmet>
           <title>Videos || Ampeer is Life</title>
       </Helmet>
+
+      {/* if there is an error eg network error */}
+      {error? <p>{error}</p>: null}
+       
         <Headline>
            
             <PropertyVideos>
@@ -36,22 +70,33 @@ function PropertyInfo() {
             
             <DescGroup>
                 <Description>
-                    <div>
-                        {/* <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span> */}
-                        <span>2 Bedroom Flat FOR RENT</span>
-                    </div>
+                    { detail?
+                        <>
+                            <div>
+                                {/* <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span> */}
+                                <span> {detail.data.roomType} Flat for {detail.data.category}</span>
+                                
 
-                    <div>
-                        {/* <span><img src="../../../Assets/location.svg" alt="locationIcon"/></span> */}
-                        <span>Lekki Phase 1, Lagos.</span>
-                    </div>
+                            </div>
+                            <div>
+                                {/* <span><img src="../../../Assets/location.svg" alt="locationIcon"/></span> */}
+                                <span>{detail.data.location}, Lagos.</span>
+                                
 
-                    <div>
-                        {/* <span><img src="../../../Assets/NairaIcon.svg" alt="NairaIcon"/></span> */}
-                        <span><img src="../../../Assets/NairaBasket.svg" alt=""/></span>
-                        <span>2,500,000 per annum</span>
-                        {/* <span>per annum</span> */}
-                    </div>      
+                            </div>
+                            <div>
+                                {/* <span><img src="../../../Assets/NairaIcon.svg" alt="NairaIcon"/></span> */}
+                                <span><img src="../../../Assets/NairaBasket.svg" alt=""/></span>
+                                {detail.data.category === 'Shortlet'? <span>{detail.data.amount} per night</span> :
+                                <span>{detail.data.amount} per annum</span>}
+
+                                
+                                {/* <span>per annum</span> */}
+                            </div>    
+                        </>
+                     : (
+                        <p>Something went wrong</p>
+                    )}  
                 </Description>
 
                 <PayPrompt>

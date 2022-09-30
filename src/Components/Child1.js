@@ -20,8 +20,9 @@ function Child1({setAllProperties}) {
  
   const [category, setCategory] = useState({categoryName: btngroupone[0]});
   const [houseType, setHouseType] = useState({houseName: housegroup[0]});
-  const [minPrice, setMinPrice  ] = useState(minimumPriceRent[0].value)
-  const [maxPrice, setMaxPrice  ] = useState(maximumPriceRent[0].value)
+  const [minPrice, setMinPrice  ] = useState(minimumPriceRent[0].value);
+  const [maxPrice, setMaxPrice  ] = useState(maximumPriceRent[0].value);
+  const[errMsg, setErrMsg] = useState()
 
 
   
@@ -45,7 +46,31 @@ function Child1({setAllProperties}) {
   console.log(endPrice);
   
 
-  
+  useEffect(()=>{
+    axios({
+      method: 'get',
+      url: 'http://ampeer-001-site1.gtempurl.com/api/Account/GetAvailableProperties', 
+      params: {
+        categoryId: selectedCategory,
+        roomTypeId: roomType,
+        startPrice: startPrice,
+        endPrice: endPrice,
+      }
+    })
+    .then((res) =>{ 
+      console.log(res.data)
+      //get all properties based on query from api and send to the parent(main.js) and then to Child2
+      setAllProperties(res.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+      setErrMsg(`There is something Wrong, ${err.message}`)
+
+    })
+    
+
+  },[])
+
  const handlePropertySearch =  () => {
     console.log(selectedCategory);
     console.log(roomType);
@@ -67,7 +92,10 @@ function Child1({setAllProperties}) {
     //get all properties based on query from api and send to the parent(main.js) and then to Child2
     setAllProperties(res.data)
   })
-  .catch((err)=>console.log(err))
+  .catch((err)=>{
+    console.log(err)
+    setErrMsg(`There is something Wrong: ${err.message}`)
+  })
   }
 
   return (
@@ -129,6 +157,7 @@ function Child1({setAllProperties}) {
 
         <SearchDiv><SearchButton onClick={handlePropertySearch}>Search Property</SearchButton></SearchDiv>
       </Selections>
+      {errMsg? <bold><p style={{color:'red', textAlign:'center'}}>{errMsg}</p></bold> : ''}
     </>
   );
 }
