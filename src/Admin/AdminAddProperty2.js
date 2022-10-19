@@ -1,4 +1,5 @@
 import axios from "axios";
+import {locationList} from '../Components/Properties/Lekkiphase1'; 
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
@@ -8,16 +9,18 @@ function AdminAddProperty() {
 
   const bedroomsOptions = [
     "Shared",
-    "1 bedroom",
-    "2 bedrooms",
-    "3 bedrooms",
-    "4+ bedrooms",
+    "1 Bedroom",
+    "2 Bedrooms",
+    "3 Bedrooms",
+    "4+ Bedrooms",
   ];
+
+
 
   const areaOptions = [
     "Oniru",
-    "Lekki phase1",
-    "Lekki phase1 (right)",
+    "Lekki Phase 1",
+    "Lekki Phase 1 (Right)",
     "Ikate",
     "Salem",
     "Ilasan",
@@ -138,7 +141,7 @@ function AdminAddProperty() {
         method: "post",
         url: "http://ampeer-001-site1.gtempurl.com/api/Admin/CreateProperty",
         data: {
-          propertyId: "50",
+          propertyId: "53",
           category: category,
           roomType: roomType,
           location: location,

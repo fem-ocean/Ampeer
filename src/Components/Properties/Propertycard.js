@@ -1,57 +1,91 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import EditAndDelete from '../EditAndDelete';
 import { Link } from "react-router-dom"
 import AllProperties from './AllProperties';
 import Property  from './AllProperties'
 import axios from 'axios';
+import { connect } from 'react-redux';
 
-function Propertycard({item}) {
+function Propertycard(props) {
 
-    console.log({item});
+    console.log(props.item);
 
-    console.log(item.propertyId)
+    console.log(props.item.propertyId)
+
+    console.log(props.item.thumbnailImageUrl)
+
+    // const [backgroundImg, setBackgroundImg] = useState();
+
+    // setBackgroundImg(item.thumbnailImageUrl);
+
+    // console.log(backgroundImg)
+
+    console.log(props.loggedIn)
+    if(props.loggedIn){
+        console.log("Printed")
+        console.log(props.loggedIn)
+    }else{
+        console.log("Not found oo")
+    }
+
 
     
   return (
-    <Link to={`/info/${item.propertyId}`}><Container>
-        <Card>
-            <CardCont>
-               
-                 {/* item.thumbnailpicture to use the properties from item.   */}
-                <Thumbnail><img src={"../../../Assets/Union.svg"} alt="unionImage"/></Thumbnail>
+    
+    
+    <Link to={`/info/${props.item.propertyId}`}>
+        <Container>
+            <Card>
+                <CardCont>
                 
-                
-                <Description>
-                    <div>
-                        <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span>
-                        <span><p>{item.roomType} Flat FOR {item.category}</p></span>
-                        {/* <span>{props.house}</span> */}
-                    </div>
-
-                    <div>
-                        <span><img src="../../../Assets/location.svg" alt="locationIcon"/></span>
-                        <span><p>{item.location}, Lagos.</p></span>
-                    </div>
-
-                    <div>
-                        <span><img src="../../../Assets/NairaIcon.svg" alt="NairaIcon"/></span>
-                        <span><img src="../../../Assets/Nairaa.svg" alt=""/></span>
-                        <span><p style={{'fontWeight': 'bold'}}>N{item.amount} / annum</p></span>
-                        {/* <span className='duration'><p>per annum</p></span> */}
-                    </div>
+                    {/* item.thumbnailpicture to use the properties from item.   */}
+        
+                    <Thumbnail thumbnailImage={`url(${props.item.thumbnailImageUrl})`}><img src={"../../../Assets/Union.svg"} alt="unionImage"/></Thumbnail>
                     
+                    
+                    <Description>
+                        <div>
+                            <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span>
+                            <span><p>{props.item.roomType} Flat FOR {props.item.category}</p></span>
+                            {/* <span>{props.house}</span> */}
+                        </div>
 
-                </Description>
-            </CardCont>
+                        <div>
+                            <span><img src="../../../Assets/location.svg" alt="locationIcon"/></span>
+                            <span><p>{props.item.location}, Lagos.</p></span>
+                        </div>
 
-           {(window.location.href === 'http://localhost:3000/adminlogin/home' || 
-           window.location.href === 'https://ampeer.netlify.app/adminlogin/home') && <EditAndDelete />}
+                        <div>
+                            <span><img src="../../../Assets/NairaIcon.svg" alt="NairaIcon"/></span>
+                            <span><img src="../../../Assets/Nairaa.svg" alt=""/></span>
+                            <span><p style={{'fontWeight': 'bold'}}>N{props.item.amount} / annum</p></span>
+                            {/* <span className='duration'><p>per annum</p></span> */}
+                        </div>
+                    </Description>
+                </CardCont>
 
-        </Card>
-    </Container></Link>
-  )
+            {(window.location.href === 'http://localhost:3000/adminlogin/home' || 
+            window.location.href === 'https://ampeer.netlify.app/adminlogin/home') && <EditAndDelete />}
+            </Card>
+        </Container>
+    </Link>
+    
+)
 }
+
+const mapStateToProps = state =>{
+    return{
+      loggedIn: state.loggedIn,
+    }
+}
+  
+//   const mapDispatchToProps = (dispatch) =>{
+//     return{
+//     //   signIn: ()=>dispatch(signIn()),
+//     //   signOut: ()=>dispatch(signOut())
+//     }
+//   }
 
 const Container = styled.div`
     height: 240px;
@@ -105,10 +139,13 @@ const Thumbnail = styled.div`
     height: 200px;
     /* border: 1px solid green; */
     background-color: #24272c;
-    background-image: url({item.thumbnailImageUrl});
+    background-image: ${props => props.thumbnailImage};)
+    /* background-image: url('http://res.cloudinary.com/dvvqaai3z/image/upload/v1665924089/thumbnailPicture/iwnn91un4oymddgqogxy.png'); */
     background-repeat:  no-repeat;
     background-size: cover;
     position: relative;
+
+
 
     &>img{
         margin-left: 130px;
@@ -164,9 +201,8 @@ const Description = styled.div`
         width: auto;
         height: 100px;
         margin-left: 5px;
-
     }
 
 `
 
-export default Propertycard;
+export default connect(mapStateToProps, null)(Propertycard);

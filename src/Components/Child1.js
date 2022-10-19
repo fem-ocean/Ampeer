@@ -7,7 +7,7 @@ function Child1({setAllProperties}) {
   
   const btngroupone = ["Rent", "Shortlet"];
   
-  const housegroup = ["Shared","1 Bedrooms","2 Bedrooms","3 Bedrooms","4+ Bedrooms"];
+  const housegroup = ["Shared","1 Bedroom","2 Bedrooms","3 Bedrooms","4+ Bedrooms"];
 
   const minimumPriceRent = [{name:"No Minimum", value:0},{name:"N300,000", value:300000},{name:"N500,000", value:500000},{name:"N1,000,000", value: 1000000},{name:"N3,000,000", value: 3000000},{name:"N5,000,000", value:5000000},{name:"N10,000,000",value:10000000}];
 
@@ -94,7 +94,7 @@ function Child1({setAllProperties}) {
   })
   .catch((err)=>{
     console.log(err)
-    setErrMsg(`There is something Wrong: ${err.message}`)
+    setErrMsg(`Something went wrong: ${err.message}`)
   })
   }
 
@@ -157,7 +157,7 @@ function Child1({setAllProperties}) {
 
         <SearchDiv><SearchButton onClick={handlePropertySearch}>Search Property</SearchButton></SearchDiv>
       </Selections>
-      {errMsg? <bold><p style={{color:'red', textAlign:'center'}}>{errMsg}</p></bold> : ''}
+      {errMsg? <p style={{color:'red', textAlign:'center'}}>{errMsg}</p> : ''}
     </>
   );
 }

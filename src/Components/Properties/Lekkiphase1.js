@@ -5,7 +5,7 @@ import Propertycard from './Propertycard';
 
 function Lekkiphase1({location, allProperties}) {
 
-    const locationList = ["Oniru", "Lekki Phase 1", "Lekki Phase 1 (Right)", "Ikate", "Salem", "Ilasan", "Jakande", "Osapa", "Agungi", "Ologolo", "Igboefon", "Idado", "New Road", "Chevron", "Conservation Road", "Orchid", "Ikota", "VGC", "Ajah", "Awoyaya"]
+    // const locationList = ["Oniru", "Lekki Phase 1", "Lekki Phase 1 (Right)", "Ikate", "Salem", "Ilasan", "Jakande", "Osapa", "Agungi", "Ologolo", "Igboefon", "Idado", "New Road", "Chevron", "Conservation Road", "Orchid", "Ikota", "VGC", "Ajah", "Awoyaya"]
 
     const[isActive, setIsActive] = useState(false);
     const [filteredItem, setFilteredItem] = useState([]);
@@ -13,11 +13,11 @@ function Lekkiphase1({location, allProperties}) {
     console.log(filteredItem)
 
     console.log(allProperties.data)
-    console.log({location})
+    // console.log({location})
     let locationValue = Object.values({location})
-    console.log(locationValue)
+    // console.log(locationValue)
     let area = locationValue[0]
-    console.log(area) 
+    console.log('Area from parent to be compared Url area: ' + area) 
         
             
     //Filtering fetched properties from child1 and comparing them with location prop  in LekkiPhase1 component
@@ -37,14 +37,12 @@ function Lekkiphase1({location, allProperties}) {
 
 
   return (
-    
+    //Code for a particular location dropdown
     <Lekkiph1Dropdown>
-        
         
         <DropdownBtn onClick={handleDropdownBtnClick}>
             <div><p>{location}</p></div>
             <div>
-                
                 {filteredProperties?  <i> {filteredProperties.length} Properties</i> :
                 <i>0 Properties</i>}
                 {/* <img src="../../../Assets/Polygon 2.svg" alt="dropArrow"/> */}

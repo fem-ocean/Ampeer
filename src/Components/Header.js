@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 // import { auth, googleProvider, signInWithPopup } from "../firebase";
 import { GoogleLogin, GoogleLogout} from 'react-google-login';
 import { gapi } from 'gapi-script'
+import { signIn, signOut } from "../Redux/userAction";
 
 const clientId = '98761361459-de6kvpo6kjt8fph6kc3hosuh5pre3etk.apps.googleusercontent.com'
 
@@ -34,8 +36,13 @@ function Header(props) {
     console.log(res.profileObj.name);
     setUsername(res.profileObj.name);
     
-    var id_token = res.getAuthResponse().id_token; //for id token
-    console.log(id_token) //show id token in console for debugging
+    //for id token
+    var id_token = res.getAuthResponse().id_token; 
+    //show id token in console for debugging
+    console.log(id_token);
+    //dispatch action to the redux state and set loggedIn to True
+    props.signIn()
+
 
     //send the google user id token to the server using the POST method.
     // var xhr = new XMLHttpRequest();
@@ -64,6 +71,8 @@ function Header(props) {
     
     .then(()=>{
       setUsername(null);
+      props.signOut()
+  
       alert('You have successfully Logged out');
     })
 
@@ -86,7 +95,7 @@ function Header(props) {
   
 
   
-  
+  console.log(props.loggedIn)
 
     
 
@@ -123,6 +132,19 @@ function Header(props) {
        </Wrapper>
     </Container>
   );
+}
+
+const mapStateToProps = state =>{
+  return{
+    loggedIn: state.loggedIn
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    signIn: ()=>dispatch(signIn()),
+    signOut: ()=>dispatch(signOut())
+  }
 }
 
 const Container = styled.div`
@@ -266,4 +288,4 @@ const LogoContainer = styled.div`
 
 
 
-export default Header;
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
