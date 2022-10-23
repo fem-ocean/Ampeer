@@ -91,9 +91,11 @@ function Child1({setAllProperties}) {
     console.log(res.data)
     //get all properties based on query from api and send to the parent(main.js) and then to Child2
     setAllProperties(res.data)
+    alert('all is working fine')
   })
   .catch((err)=>{
     console.log(err)
+    alert('something is wrong')
     setErrMsg(`Something went wrong: ${err.message}`)
   })
   }
