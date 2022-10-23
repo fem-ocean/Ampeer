@@ -71,13 +71,13 @@ function Child1({setAllProperties}) {
 
   // },[])
 
- const handlePropertySearch =  () => {
+ const handlePropertySearch = async () => {
     console.log(selectedCategory);
     console.log(roomType);
     console.log(startPrice);
     console.log(endPrice);
     
-    axios({
+    await axios({
     method: 'get',
     url: 'http://ampeer-001-site1.gtempurl.com/api/Account/GetAvailableProperties', 
     params: {
@@ -96,6 +96,13 @@ function Child1({setAllProperties}) {
   .catch((err)=>{
     console.log(err)
     alert('something is wrong')
+    console.log(selectedCategory)
+    console.log(roomType)
+    console.log(startPrice)
+    console.log(endPrice)
+
+
+
     setErrMsg(`Something went wrong: ${err.message}`)
   })
   }
