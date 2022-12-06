@@ -1,0 +1,149 @@
+
+// // Create and Deploy Your First Cloud Functions
+// // https://firebase.google.com/docs/functions/write-firebase-functions
+//
+// exports.helloWorld = functions.https.onRequest((request, response) => {
+//   functions.logger.info("Hello logs!", {structuredData: true});
+//   response.send("Hello from Firebase!");
+// });
+
+
+//I will build an express app and host it on cloud function
+//Do npm i express
+//const express = require("express");
+//Do npm i cors.....Think of cors as a form of security
+//We require stripe and its test key
+
+//What we need to setup an API:
+//1. API
+
+//2. App Config
+//const app = express();
+
+//3. Middlewares
+// app.use(cors({ origin: true}));
+//app.use(express.json()); Allows us to send data and pass in data in json format.
+
+//4. API routes
+// app.get("/", (request, response) => response.status(200).send('Hello World'))
+
+// app.get("/qazi", (request, response) => response.status(200).send('Whats up Qazi'))
+
+// app.post("/payments/create", async (request, response) => {
+//   const total = request.total.query
+//   console.log('Payment Request received for this amount >>>', total)
+//   const paymentIntent = await stripe.paymentIntents.create({
+    // amount: total,
+    // currency: "usd",
+// });
+
+    //OK created
+    // response.status(201).send({
+        // clientSecret: paymentIntent.client_secret,
+    // })
+// })
+// You can use request params instead of request.total.query....This is used to send a query parameter(total) from d frontend
+
+// 5. Listen Command
+
+//exports.api = functions.https.onRequest(app) - This is saying cloud function, secured
+//that .api will be attached to our url has /api
+
+//Above is the setup needed to get the backend express running on a cloud funtion.
+//To get it running on our local,we can emulate(test) it. Before deploying.
+//In cli firebase emulators:start ......This will spin up the express server and you will get the api endpoint when you visit you will get the response defined in API route
+//To finally deploy i.e to move from emulators.: firebase deploy --only functions. you will get a new url api. replace it with the emulator api in your frontend code. when you want to deploy the frontend, make sure you do firebase only hosting.
+
+const functions = require('firebase-functions');
+const express = require('express');
+const cors = require('cors');
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+
+
+
+
+//API
+
+
+
+//APP CONFIG
+//const app = express();
+
+//MIDDLEWARES
+// app.use(cors({ origin: true}));
+// app.use(express.json());
+
+
+//API ROUTES
+// app.get("/", (request, response) => response.status(200).send('Hello World'));
+
+
+// app.post("/success", async (request, response) => {
+//     const successful = request.successful.query
+//     console.log('Payment of 2000 was successful')
+//     const paymentIntent = await stripe.paymentIntents.create({
+//         amount: total,
+//         currency: "usd",
+//      })
+
+
+    
+
+
+//LISTEN COMMAND
+// exports.api = functions.https.onRequest(app) 
+
+
+// Take the text parameter passed to this HTTP endpoint and insert it into 
+// Firestore under the path /messages/:documentId/original
+// exports.addMessage = functions.https.onRequest(async (req, res) => {
+//     // Grab the text parameter.
+//     const original = req.query.text;
+//     // Push the new message into Firestore using the Firebase Admin SDK.
+//     const writeResult = await admin.firestore().collection('messages').add({original: original});
+//     // Send back a message that we've successfully written the message
+//     res.json({result: `Message with ID: ${writeResult.id} added.`});
+// });
+
+
+// exports.scheduledFunction = functions.pubsub.schedule('every 1 minutes').onRun((context) => {
+// console.log('This will be run every 1 minutes!');
+// return null;
+// });
+
+var database = admin.firestore()
+exports.scheduledFunction = functions.pubsub.schedule('* * * * *')
+//   .timeZone('America/New_York') // Users can choose timezone - default is America/Los_Angeles
+  .onRun((context) => {
+    database.doc(`Users/qLYT5mRDAHXI1WIdHX4G`).update({"paidUser": true});
+    console.log('This will be run every day at 11:05 AM Eastern!');
+});
+
+
+//Example Endpoint
+
+
+onAuthStateChanged(auth, (user)=>{
+    if (user){
+      console.log(user.uid)
+      setDoc(doc('db', "Users", `${user.uid}`), {
+        isPaid: false
+      })
+
+    }else{
+      console.log('User is signed out')
+    }
+  });
+
+
+const database = admin.firestore();
+exports.scheduledFunction = functions.pubsub
+    .schedule("* * * * *")
+    .onRun((context) => {
+      database.doc("Users/qLYT5mRDAHXI1WIdHX4G").update({paidUser: true});
+      return console.log("This will be run every day at 11:05 AM Eastern!");
+    });
+
+admin.initializeApp();

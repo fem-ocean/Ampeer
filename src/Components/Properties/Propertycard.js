@@ -11,9 +11,15 @@ function Propertycard(props) {
 
     console.log(props.item);
 
-    console.log(props.item.propertyId)
+    console.log(props.item.documentID)
+    console.log(props.item.documentData)
 
-    console.log(props.item.thumbnailImageUrl)
+    // console.log(props.item.doc.id)
+
+    
+    
+
+    console.log(props.item.documentData.thumbnailImageUrl)
 
     // const [backgroundImg, setBackgroundImg] = useState();
 
@@ -34,32 +40,32 @@ function Propertycard(props) {
   return (
     
     
-    <Link to={`/info/${props.item.propertyId}`}>
+    <Link to={`/info/${props.item.documentID}`}>
         <Container>
             <Card>
                 <CardCont>
                 
                     {/* item.thumbnailpicture to use the properties from item.   */}
         
-                    <Thumbnail thumbnailImage={`url(${props.item.thumbnailImageUrl})`}><img src={"../../../Assets/Union.svg"} alt="unionImage"/></Thumbnail>
+                    <Thumbnail thumbnailImage={`url(${props.item.documentData.thumbnailImageUrl})`}></Thumbnail>
                     
                     
                     <Description>
                         <div>
                             <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span>
-                            <span><p>{props.item.roomType} Flat FOR {props.item.category}</p></span>
+                            <span><p>{props.item.documentData.roomType} Flat FOR {props.item.documentData.category}</p></span>
                             {/* <span>{props.house}</span> */}
                         </div>
 
                         <div>
                             <span><img src="../../../Assets/location.svg" alt="locationIcon"/></span>
-                            <span><p>{props.item.location}, Lagos.</p></span>
+                            <span><p>{props.item.documentData.location}, Lagos.</p></span>
                         </div>
 
                         <div>
                             <span><img src="../../../Assets/NairaIcon.svg" alt="NairaIcon"/></span>
                             <span><img src="../../../Assets/Nairaa.svg" alt=""/></span>
-                            <span><p style={{'fontWeight': 'bold'}}>N{props.item.amount} / annum</p></span>
+                            <span><p style={{'fontWeight': 'bold'}}>N{props.item.documentData.amount} / annum</p></span>
                             {/* <span className='duration'><p>per annum</p></span> */}
                         </div>
                     </Description>

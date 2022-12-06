@@ -12,21 +12,28 @@ function Lekkiphase1({location, allProperties}) {
 
     console.log(filteredItem)
 
-    console.log(allProperties.data)
-    // console.log({location})
+    console.log(allProperties)
+    console.log({location})
+    console.log(location)
+
     let locationValue = Object.values({location})
-    // console.log(locationValue)
+    console.log(locationValue)
     let area = locationValue[0]
-    console.log('Area from parent to be compared Url area: ' + area) 
+    console.log(`'${area}'`)
+    console.log('Area from parent to be compared Url area: ' + `"${area}"`) 
+    // console.log('Area from parent to be compared Url area: ' + location) 
+
         
             
     //Filtering fetched properties from child1 and comparing them with location prop  in LekkiPhase1 component
           
-    if (!allProperties.data){
+    if (!allProperties){
         var filteredProperties = []
     }
     else{
-         var filteredProperties = allProperties.data.filter(property=>property.location === area);
+        
+         var filteredProperties = allProperties.filter(property=>property.documentData.location === area);
+        console.log(filteredProperties)
     }
 
     
@@ -54,7 +61,7 @@ function Lekkiphase1({location, allProperties}) {
             filteredProperties.length === 0? <p>No properties available at the moment</p> : 
 
             filteredProperties.map((item, key)=>(
-                <DropdownContent key={item.id}>
+                <DropdownContent key={item.documentID}>
                     <Propertycard item={item}/>
                 </DropdownContent>
             ))  

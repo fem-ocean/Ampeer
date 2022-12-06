@@ -1,7 +1,9 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import firebase from "firebase/compat/app";
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
+
 
 
 // Your web app's Firebase configuration
@@ -16,14 +18,20 @@ const firebaseConfig = {
   measurementId: "G-N0NWEZ1RT2"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Initialize Firebase app
+const app = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+//For authentication / login popup
+const provider = new firebase.auth.GoogleAuthProvider();
+
+//For storing pictures and videos.
+const storage = firebase.storage()
 
 
-const auth = getAuth(app)
-
-const googleProvider = new GoogleAuthProvider()
 
 
-export {auth, googleProvider, app, signInWithPopup}
+export const db = app.firestore();
+
+export {auth, provider, storage};
+// export default db;

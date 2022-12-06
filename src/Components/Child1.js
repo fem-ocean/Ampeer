@@ -1,37 +1,75 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../firebase"
 
-
-function Child1({setAllProperties}) {
-  
+function Child1({ setAllProperties }) {
   const btngroupone = ["Rent", "Shortlet"];
-  
-  const housegroup = ["Shared","1 Bedroom","2 Bedrooms","3 Bedrooms","4+ Bedrooms"];
 
-  const minimumPriceRent = [{name:"No Minimum", value:0},{name:"N300,000", value:300000},{name:"N500,000", value:500000},{name:"N1,000,000", value: 1000000},{name:"N3,000,000", value: 3000000},{name:"N5,000,000", value:5000000},{name:"N10,000,000",value:10000000}];
+  const housegroup = [
+    "Shared",
+    "1 Bedroom",
+    "2 Bedrooms",
+    "3 Bedrooms",
+    "4+ Bedrooms",
+  ];
 
-  const maximumPriceRent = [{name:"No Maximum", value:1000000000},{name:"N300,000", value:300000},{name:"N500,000", value:500000},{name:"N1,000,000", value: 1000000},{name:"N3,000,000", value: 3000000},{name:"N5,000,000", value:5000000},{name:"N10,000,000",value:10000000}];
+  const minimumPriceRent = [
+    { name: "No Minimum", value: 0 },
+    { name: "N300,000", value: 300000 },
+    { name: "N500,000", value: 500000 },
+    { name: "N1,000,000", value: 1000000 },
+    { name: "N3,000,000", value: 3000000 },
+    { name: "N5,000,000", value: 5000000 },
+    { name: "N10,000,000", value: 10000000 },
+  ];
 
-  const minimumPriceShortlet = [{name:"No minimum", value:0},{name:"N10,000", value:10000},{name:"N20,000", value:20000},{name:"N30,000",value:30000},{name:"N50,000", value:50000},{name:"N100,000", value:100000},{name:"N200,000", value:200000}, {name:"N500,000", value: 500000}];
+  const maximumPriceRent = [
+    { name: "No Maximum", value: 1000000000 },
+    { name: "N300,000", value: 300000 },
+    { name: "N500,000", value: 500000 },
+    { name: "N1,000,000", value: 1000000 },
+    { name: "N3,000,000", value: 3000000 },
+    { name: "N5,000,000", value: 5000000 },
+    { name: "N10,000,000", value: 10000000 },
+  ];
 
-  const maximumPriceShortlet = [{name:"No maximum", value:1000000000},{name:"N10,000", value:10000},{name:"N20,000", value:20000},{name:"N30,000",value:30000},{name:"N50,000", value:50000},{name:"N100,000"},{name:"N200,000", value:500000}, {name:"N500,000", value: 500000}];
+  const minimumPriceShortlet = [
+    { name: "No minimum", value: 0 },
+    { name: "N10,000", value: 10000 },
+    { name: "N20,000", value: 20000 },
+    { name: "N30,000", value: 30000 },
+    { name: "N50,000", value: 50000 },
+    { name: "N100,000", value: 100000 },
+    { name: "N200,000", value: 200000 },
+    { name: "N500,000", value: 500000 },
+  ];
 
- 
-  const [category, setCategory] = useState({categoryName: btngroupone[0]});
-  const [houseType, setHouseType] = useState({houseName: housegroup[0]});
-  const [minPrice, setMinPrice  ] = useState(minimumPriceRent[0].value);
-  const [maxPrice, setMaxPrice  ] = useState(maximumPriceRent[0].value);
-  const[errMsg, setErrMsg] = useState()
+  const maximumPriceShortlet = [
+    { name: "No maximum", value: 1000000000 },
+    { name: "N10,000", value: 10000 },
+    { name: "N20,000", value: 20000 },
+    { name: "N30,000", value: 30000 },
+    { name: "N50,000", value: 50000 },
+    { name: "N100,000" },
+    { name: "N200,000", value: 500000 },
+    { name: "N500,000", value: 500000 },
+  ];
 
+  const [category, setCategory] = useState({ categoryName: btngroupone[0] });
+  const [houseType, setHouseType] = useState({ houseName: housegroup[0] });
+  const [minPrice, setMinPrice] = useState(minimumPriceRent[0].value);
+  const [maxPrice, setMaxPrice] = useState(maximumPriceRent[0].value);
+  const [errMsg, setErrMsg] = useState();
+  const [firebaseProps, setFirebaseProps] = useState([]);
 
-  
-  const handleMinDropdownChange = (e) =>{
-    setMinPrice(e.target.value)
-  }
-  const handleMaxDropdownChange = (e) =>{
-    setMaxPrice(e.target.value)
-  }
+  const handleMinDropdownChange = (e) => {
+    setMinPrice(e.target.value);
+  };
+  const handleMaxDropdownChange = (e) => {
+    setMaxPrice(e.target.value);
+  };
 
   const selectedCategory = category.categoryName;
   console.log(selectedCategory);
@@ -40,16 +78,15 @@ function Child1({setAllProperties}) {
   console.log(roomType);
 
   let startPrice = minPrice;
-  console.log(startPrice)
-  
+  console.log(startPrice);
+
   let endPrice = maxPrice;
   console.log(endPrice);
-  
 
   // useEffect(()=>{
   //   axios({
   //     method: 'get',
-  //     url: 'http://ampeer-001-site1.gtempurl.com/api/Account/GetAvailableProperties', 
+  //     url: 'http://ampeer-001-site1.gtempurl.com/api/Account/GetAvailableProperties',
   //     params: {
   //       categoryId: selectedCategory,
   //       roomTypeId: roomType,
@@ -57,7 +94,7 @@ function Child1({setAllProperties}) {
   //       endPrice: endPrice,
   //     }
   //   })
-  //   .then((res) =>{ 
+  //   .then((res) =>{
   //     console.log(res.data)
   //     //get all properties based on query from api and send to the parent(main.js) and then to Child2
   //     setAllProperties(res.data)
@@ -67,45 +104,67 @@ function Child1({setAllProperties}) {
   //     setErrMsg(`There is something Wrong, ${err.message}`)
 
   //   })
-    
 
   // },[])
 
- const handlePropertySearch = async () => {
+  
+
+  const handlePropertySearch = async () => {
     console.log(selectedCategory);
     console.log(roomType);
     console.log(startPrice);
     console.log(endPrice);
-    
-    await axios({
-    method: 'get',
-    url: 'http://ampeer-001-site1.gtempurl.com/api/Account/GetAvailableProperties', 
-    params: {
-      categoryId: selectedCategory,
-      roomTypeId: roomType,
-      startPrice: startPrice,
-      endPrice: endPrice,
+
+    const firestoreQuery = query(collection(db, 'Property'), 
+      where("category", "==", `${selectedCategory}`), 
+      where("roomType", "==", `${roomType}`),
+      where("amount", ">=", `${startPrice}`, "&&", "amount", "<=", `${endPrice}` )
+    )
+
+    const querySnapshot = await getDocs(firestoreQuery);
+    try{
+      querySnapshot.forEach((doc)=>{
+        console.log(`The properties that match are `, doc.data(), doc.id)
+        setFirebaseProps(firebaseProps.push({documentID:doc.id, documentData:doc.data()}))
+        // setFirebaseProps(firebaseProps.push(doc.data()))
+
+      })
+    }catch(err){
+      console.log(`There was an error ${err}`)
     }
-  })
-  .then((res) =>{ 
-    console.log(res.data)
-    //get all properties based on query from api and send to the parent(main.js) and then to Child2
-    setAllProperties(res.data)
-    alert('all is working fine')
-  })
-  .catch((err)=>{
-    console.log(err)
-    alert('something is wrong')
-    console.log(selectedCategory)
-    console.log(roomType)
-    console.log(startPrice)
-    console.log(endPrice)
+
+    console.log(firebaseProps)
+    setAllProperties(firebaseProps)
+
+    
 
 
+    // axios({
+    //   method: "get",
+    //   url: "http://ampeer01-001-site1.btempurl.com/api/Account/GetAvailableProperties",
+    //   params: {
+    //     categoryId: selectedCategory,
+    //     roomTypeId: roomType,
+    //     startPrice: startPrice,
+    //     endPrice: endPrice,
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     //get all properties based on query from api and send to the parent(main.js) and then to Child2
+    //     setAllProperties(res.data);
+    //     alert("all is working fine");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     alert("something is wrong");
+    //     setErrMsg(`Something went wrong: ${err.message}`);
+    //   });
+  };
 
-    setErrMsg(`Something went wrong: ${err.message}`)
-  })
-  }
+  useEffect(()=>{
+    setFirebaseProps([])
+  },[selectedCategory, roomType, startPrice, endPrice])
 
   return (
     <>
@@ -114,9 +173,9 @@ function Child1({setAllProperties}) {
           {btngroupone.map((item) => (
             <RentButton
               key={item}
-              categoryName ={category.categoryName === item}
+              categoryName={category.categoryName === item}
               onClick={() => {
-                setCategory({categoryName: item});
+                setCategory({ categoryName: item });
               }}
             >
               <p>{item}</p>
@@ -130,7 +189,7 @@ function Child1({setAllProperties}) {
               key={item}
               houseType={houseType.houseName === item}
               onClick={() => {
-                setHouseType({houseName: item});
+                setHouseType({ houseName: item });
               }}
             >
               <p>{item}</p>
@@ -140,33 +199,51 @@ function Child1({setAllProperties}) {
 
         <Price>
           <div>
-            <label style={{"fontSize":"14px"}}>Minimum Price</label>
-            <select onChange={handleMinDropdownChange} >
-                { selectedCategory==='Rent'? minimumPriceRent.map((price, key) =>(
-                    <option key={key} value={price.value}>{price.name}</option>
-                )):
-                minimumPriceShortlet.map((price, key) =>(
-                  <option key={key} value={price.value}>{price.name}</option>
-                ))}
+            <label style={{ fontSize: "14px" }}>Minimum Price</label>
+            <select onChange={handleMinDropdownChange}>
+              {selectedCategory === "Rent"
+                ? minimumPriceRent.map((price, key) => (
+                    <option key={key} value={price.value}>
+                      {price.name}
+                    </option>
+                  ))
+                : minimumPriceShortlet.map((price, key) => (
+                    <option key={key} value={price.value}>
+                      {price.name}
+                    </option>
+                  ))}
             </select>
           </div>
-            
+
           <div>
-            <label style={{"fontSize":"14px"}}>Maximum Price</label>
+            <label style={{ fontSize: "14px" }}>Maximum Price</label>
             <select onChange={handleMaxDropdownChange}>
-                {selectedCategory==='Rent'? maximumPriceRent.map((price, key) =>(
-                    <option key={key} value={price.value}>{price.name}</option>
-                )):
-                maximumPriceShortlet.map((price, key) =>(
-                  <option key={key} value={price.value}>{price.name}</option>
-                ))}
+              {selectedCategory === "Rent"
+                ? maximumPriceRent.map((price, key) => (
+                    <option key={key} value={price.value}>
+                      {price.name}
+                    </option>
+                  ))
+                : maximumPriceShortlet.map((price, key) => (
+                    <option key={key} value={price.value}>
+                      {price.name}
+                    </option>
+                  ))}
             </select>
           </div>
         </Price>
 
-        <SearchDiv><SearchButton onClick={handlePropertySearch}>Search Property</SearchButton></SearchDiv>
+        <SearchDiv>
+          <SearchButton onClick={handlePropertySearch}>
+            Search Property
+          </SearchButton>
+        </SearchDiv>
       </Selections>
-      {errMsg? <p style={{color:'red', textAlign:'center'}}>{errMsg}</p> : ''}
+      {errMsg ? (
+        <p style={{ color: "red", textAlign: "center" }}>{errMsg}</p>
+      ) : (
+        ""
+      )}
     </>
   );
 }
@@ -183,7 +260,6 @@ const Selections = styled.div`
 
   @media (max-width: 768px) {
     height: 598px;
-    
   }
 `;
 
@@ -231,7 +307,6 @@ const RentButton = styled.button`
   height: 42px;
   text-align: center;
 
-  
   p {
     font-size: 16px;
     font-weight: 600;
@@ -251,21 +326,19 @@ const RentButton = styled.button`
 
   border-radius: 4px;
   cursor: pointer;
-
- 
 `;
 
 const Price = styled.div`
-    width: 80%;
-    height: 70px;
-    /* border: 1px solid red; */
-    margin: auto;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
+  width: 80%;
+  height: 70px;
+  /* border: 1px solid red; */
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
 
-    @media (max-width: 768px) {
+  @media (max-width: 768px) {
     flex-wrap: wrap;
     flex-direction: column;
     gap: 10px;
@@ -273,7 +346,7 @@ const Price = styled.div`
     margin-bottom: 30px;
     height: 90px;
   }
-`
+`;
 
 const Shared = styled.button`
   border: 1px solid #2c8e71;
@@ -300,11 +373,11 @@ const Shared = styled.button`
             color: #ffffff;
         }
     `}
-`
+`;
 
 const SearchDiv = styled.div`
   margin: auto;
-`
+`;
 
 const SearchButton = styled.button`
   width: 250px;
@@ -317,6 +390,6 @@ const SearchButton = styled.button`
   /* font-weight: 700;   */
   font-size: 16px;
   letter-spacing: 2px;
-`
+`;
 
 export default Child1;

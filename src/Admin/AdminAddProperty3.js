@@ -1,23 +1,27 @@
 import axios from "axios";
+import {locationList} from '../Components/Properties/Lekkiphase1'; 
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
+import { getStorage, ref, uploadBytes, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { db } from "../firebase";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 function AdminAddProperty() {
   const categoryOptions = ["Rent", "Shortlet"];
 
   const bedroomsOptions = [
     "Shared",
-    "1 bedroom",
-    "2 bedrooms",
-    "3 bedrooms",
-    "4+ bedrooms",
+    "1 Bedroom",
+    "2 Bedrooms",
+    "3 Bedrooms",
+    "4+ Bedrooms",
   ];
 
   const areaOptions = [
     "Oniru",
-    "Lekki phase1",
-    "Lekki phase1 (right)",
+    "Lekki Phase 1",
+    "Lekki Phase 1 (Right)",
     "Ikate",
     "Salem",
     "Ilasan",
@@ -37,9 +41,10 @@ function AdminAddProperty() {
     "Awoyaya",
   ];
 
-  const [category, setCategory] = useState();
-  const [roomType, setRoomType] = useState();
-  const [location, setLocation] = useState();
+  
+  const [category, setCategory] = useState(categoryOptions[0]);
+  const [roomType, setRoomType] = useState(bedroomsOptions[0]);
+  const [location, setLocation] = useState(areaOptions[0]);
   const [price, setPrice] = useState(0);
   const [thumbnailImageUrl, setThumbnailImageUrl] = useState();
   const [interiorVideoUrl, setInteriorVideoUrl] = useState();
@@ -72,6 +77,7 @@ function AdminAddProperty() {
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
   };
+  
   const handleimgChange = (e) => {
     setThumbnailImageUrl(e.target.files[0]);
   };
@@ -89,56 +95,126 @@ function AdminAddProperty() {
   };
   console.log(streetVideoUrl);
 
+
+  const handleImageSubmit = (e) => {
+    e.preventDefault();
+    const storage = getStorage();
+    const imageRef = ref(storage, `ThumbnailImage/${thumbnailImageUrl.name}`)
+    const uploadTask = uploadBytesResumable(imageRef, thumbnailImageUrl);
+    uploadTask.on('state_changed', (snapshot)=>{
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      console.log(`Thumbnail ImageUpload is ${progress}% done`)
+    },
+    (error)=>{
+      console.log(error)
+    },
+    ()=>{
+      getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadThumbnailImageURL)=>{
+          console.log(`IMAGE FILE AVAILABLE AT ${downloadThumbnailImageURL}`)
+          setImgUrl(downloadThumbnailImageURL)
+        })
+    }
+    )
+    uploadBytes(imageRef, thumbnailImageUrl)
+      .then((snapshot) =>{
+        alert('Thumbnail Image uploaded successfully')
+      })
+  }
+
+
+  const handleIntVidSubmit = (e) => {
+    e.preventDefault();
+    const storage = getStorage();
+    const intVidRef = ref(storage, `InteriorVideos/${interiorVideoUrl.name}`)
+    const uploadTask = uploadBytesResumable(intVidRef, interiorVideoUrl);
+    uploadTask.on('state_changed', (snapshot)=>{
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      console.log(`Interior Video Upload is ${progress}% done`)
+    },
+    (error)=>{
+      console.log(error)
+    },
+    ()=>{
+      getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadIntVidURL)=>{
+          console.log(`INTERIOR VIDEO FILE AVAILABLE AT ${downloadIntVidURL}`)
+          setIntVidUrl(downloadIntVidURL)
+        })
+    }
+    )
+    uploadBytes(intVidRef, interiorVideoUrl)
+      .then((snapshot) =>{
+        alert('Interior Video uploaded successfully')
+      })
+  }
+
+
+  const handleCompVidSubmit = (e) => {
+    e.preventDefault();
+    const storage = getStorage();
+    const compVidRef = ref(storage, `CompoundVideos/${compoundVideoUrl.name}`)
+    const uploadTask = uploadBytesResumable(compVidRef, compoundVideoUrl);
+    uploadTask.on('state_changed', (snapshot)=>{
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      console.log(`Compound Video Upload is ${progress}% done`)
+    },
+    (error)=>{
+      console.log(error)
+    },
+    ()=>{
+      getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadCompVidURL)=>{
+          console.log(`COMPOUND VIDEO FILE AVAILABLE AT ${downloadCompVidURL}`)
+          setCompVidUrl(downloadCompVidURL)
+        })
+    }
+    )
+    uploadBytes(compVidRef, compoundVideoUrl)
+      .then((snapshot) =>{
+        alert('Compound Video uploaded successfully')
+      })
+  }
+
+
+  const handleStreetVidSubmit = (e) => {
+    e.preventDefault();
+    const storage = getStorage();
+    const streetVidRef = ref(storage, `StreetVideos/${streetVideoUrl.name}`)
+    const uploadTask = uploadBytesResumable(streetVidRef, streetVideoUrl);
+    uploadTask.on('state_changed', (snapshot)=>{
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      console.log(`Street Video Upload is ${progress}% done`)
+    },
+    (error)=>{
+      console.log(error)
+    },
+    ()=>{
+      getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadStreetVidURL)=>{
+          console.log(`STREET VIDEO FILE AVAILABLE AT ${downloadStreetVidURL}`)
+          setStreetVidUrl(downloadStreetVidURL)
+        })
+    }
+    )
+    uploadBytes(streetVidRef, streetVideoUrl)
+      .then((snapshot) =>{
+        alert('Compound Video uploaded successfully')
+      })
+  }
   
-  const handleFormSubmitExample = (e) => {
-    
+  
+
+  const handleFirebaseSubmit = async (e) =>{
     e.preventDefault();
 
-    // Picture FormData Object
-    var pictureFormData = new FormData();
-    var intVidFormData = new FormData();
-    var compVidFormData = new FormData();
-    var streetVidFormData = new FormData();
+  const querySnapshots = await getDocs(collection(db, 'Property'));
+  const docSize = querySnapshots._snapshot.docChanges.length
 
-
-    //update the FormData object for each files
-    pictureFormData.append('file', thumbnailImageUrl);
-    pictureFormData.append('upload_preset', "yr12fgfl");
-    pictureFormData.append('folder', "thumbnailPicture")
-
-    intVidFormData.append('file', interiorVideoUrl);
-    intVidFormData.append('upload_preset', "yr12fgfl");
-    intVidFormData.append('folder', "interiorVideo")
-
-    compVidFormData.append('file', compoundVideoUrl);
-    compVidFormData.append('upload_preset', "yr12fgfl");
-    compVidFormData.append('folder', "compoundVideo");
-
-    streetVidFormData.append('file', streetVideoUrl);
-    streetVidFormData.append('upload_preset', "yr12fgfl");
-    streetVidFormData.append('folder', "streetVideo");
-
-
-    axios.all([
-      axios.post(`https://api.cloudinary.com/v1_1/dvvqaai3z/image/upload`, pictureFormData),
-      axios.post(`https://api.cloudinary.com/v1_1/dvvqaai3z/video/upload`, intVidFormData),
-      axios.post(`https://api.cloudinary.com/v1_1/dvvqaai3z/video/upload`, compVidFormData),
-      axios.post(`https://api.cloudinary.com/v1_1/dvvqaai3z/video/upload`, streetVidFormData),
-    ])
-    .then((res)=>{
-      console.log(res[0].data.url)
-      setImgUrl(res[0].data.url)
-      console.log(res[1].data.url)
-      setIntVidUrl(res[1].data.url)
-      console.log(res[2].data.url)
-      setCompVidUrl(res[2].data.url)
-      console.log(res[3].data.url)
-      setStreetVidUrl(res[3].data.url)
-      axios({
-        method: "post",
-        url: "http://ampeer01-001-site1.btempurl.com/api/Admin/CreateProperty",
-        data: {
-          propertyId: "50",
+    
+    try{
+      const docRef = await addDoc(collection(db, "Property"), {
+          propertyId: docSize + 1, //get length of the document plus 1
           category: category,
           roomType: roomType,
           location: location,
@@ -148,25 +224,16 @@ function AdminAddProperty() {
           compoundVideoUrl: compVidUrl,
           streetVideoUrl: streetVidUrl,
           isPropertyAvailable: true,
-        }
-      })
-      .then((res)=>{
-        console.log(res)
-        alert('Yayy!!! Property posted to Database successfully!')
-      })
-      .catch(err=>{
-        console.log(err)
-        alert('Something went wrong while posting property to Database')
-      })
-    })
-    .catch((err)=>{
-      console.log(err)
-      alert('Something went Wrong while try to create the property')
-    })
-   
-    console.log(imgUrl);
-    
+      });
+      alert('Property successfully posted')
+      console.log(`Document written with ID: `, docRef.id)
+    }catch(e){
+      alert(`There was an Error!`)
+      console.log(`Error adding Document `, e)
+    }
   }
+  
+ 
     
   
 
@@ -176,9 +243,10 @@ function AdminAddProperty() {
         <title>Add New Property</title>
       </Helmet>
       <FormHolder>
-        <p>Testing with Cloudinary</p>
+        <p>Backend - Firebase</p>
         <form
-          onSubmit={handleFormSubmitExample}
+          // onSubmit={handleFormSubmitExample}
+          onSubmit = {handleFirebaseSubmit}
           style={{ height: "500px" }}
           enctype="multipart/form-data"
         >
@@ -228,6 +296,7 @@ function AdminAddProperty() {
                   // value={thumbnailImageUrl}
                   onChange={handleimgChange}
                 ></input>
+                <button onClick={handleImageSubmit}>Submit</button>
               </BoxOneCont>
             </BoxOne>
             <BoxTwo>
@@ -240,6 +309,7 @@ function AdminAddProperty() {
                   onChange={handleIntVidChange}
                   // value={interiorVideoUrl}
                 ></input>
+                <button onClick={handleIntVidSubmit}>Submit</button>
               </BoxTwoCont>
             </BoxTwo>
             <BoxThree>
@@ -251,6 +321,7 @@ function AdminAddProperty() {
                   accept="video/*"
                   onChange={handleCompChange}
                 ></input>
+                <button onClick={handleCompVidSubmit}>Submit</button>
               </BoxThreeCont>
             </BoxThree>
             <BoxFour>
@@ -262,6 +333,7 @@ function AdminAddProperty() {
                   accept="video/*"
                   onChange={handleStreetChange}
                 ></input>
+                <button onClick={handleStreetVidSubmit}>Submit</button>
               </BoxFourCont>
             </BoxFour>
           </FormTwo>

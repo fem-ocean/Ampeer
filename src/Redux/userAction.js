@@ -1,8 +1,8 @@
-import { SIGN_IN, SIGN_OUT } from "./userType"
+import { SIGN_IN, SIGN_OUT_REDUX } from "./userType"
 
- export const signOut = () =>{
+ export const signOutRedux = () =>{
     return{
-        type: SIGN_OUT
+        type: SIGN_OUT_REDUX
     }
 }
 

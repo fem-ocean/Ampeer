@@ -6,39 +6,132 @@ import Footer from "./Footer";
 import { useParams, Navigate } from "react-router-dom";
 import axios from "axios";
 import App from "../fluttterwave/flutterwave";
+import { db } from "../firebase";
+import { collection, doc, getDoc, setDoc, getDocs, query, where } from "firebase/firestore";
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { ref } from "firebase/storage";
+
 
 function PropertyInfo(props) {
   const { id } = useParams();
   console.log(id);
 
-  const [detail, setDetail] = useState();
-  console.log(detail);
+
+
+  const [detail,setDetail] = useState();
+  // console.log(detail) 
   const [error, setError] = useState();
   const [interior, setInterior] = useState(true);
   const [compound, setCompound] = useState(false);
   const [street, setStreet] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [flutterwaveResponse, setFlutterwaveResponse] = useState({});
+  const [isPaid, setIsPaid] = useState(false);
 
-  const [authenticated, setAuthenticated] = useState();
 
-  let url = `http://ampeer-001-site1.gtempurl.com/api/Admin/GetPropertyById/${id}`;
+  
+  
+  // setPropertyId(id)
+
+
+
+  const auth = getAuth();
+
+  
+
+  console.log(auth.currentUser)
+  updateProfile(auth.currentUser, {
+    isPaid: false
+  }).then(()=>{
+    console.log("profile is updated")
+  }).catch((err)=>{
+    console.log("There was an error")
+  })
+  console.log(auth.currentUser)
+
+  
+  
   useEffect(() => {
+
+    const userId = auth.currentUser.uid
+    
     if (props.loggedIn) {
       setAuthenticated(props.loggedIn);
     }
+   
+    const fetchSingleData = async () => {
+      console.log(id)
+      try{
+        const docRef = doc(db, 'Property', `${id}`)
+        await getDoc(docRef)
+          .then((doc)=>{
+            console.log(doc.data(), doc.id)
+            setDetail(doc.data())
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
+      }catch(err){
+        console.log(err)
+      }
+        
+    }
 
+    const checkUserPaid = async () => {
+      try{
+        const userRef = doc(db,'Users',userId)
+        const userSnap = await getDoc(userRef)
+        console.log(userId)
+        if(userSnap.exists()){
+          const user = userSnap.data()
+          // console.log(userSnap.data())
+          setIsPaid(user.isPaid)
+        }
+      }catch(err){
+        console.log(err)
+      }
+    }
+
+    if(userId){
+      checkUserPaid();
+    }
+    fetchSingleData();
+
+    
+    
+
+    // axios({
+    //   method: "get",
+    //   url: url,
+    // })
+    //   .then((res) => {
+    //     setDetail(res.data);
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setError(`Something went wrong: ${err.message}`);
+    //   });
+  }, [id]);
+
+  console.log(detail)
+
+  if (flutterwaveResponse.status === 'successful'){
+    console.log('payment successful')
     axios({
-      method: "get",
-      url: url,
+      method: 'post',
+      url: 'http://127.0.0.1:5001/ampeer-bac80/us-central1/api/',
+      params:{
+        user: auth.currentUser.uid,
+      }
     })
-      .then((res) => {
-        setDetail(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(`Something went wrong: ${err.message}`);
-      });
-  }, [url]);
+    .then(res=>{
+      console.log(res)
+      alert('Payment successfully registered on the backend with UID' + auth.currentUser.uid)
+    })
+    .catch(err=>console.log(err))
+  }
+  
 
   const handleStreetVideo = (e) => {
     setStreet(true);
@@ -59,11 +152,13 @@ function PropertyInfo(props) {
   };
 
   console.log(props.loggedIn);
+  
   console.log(authenticated);
 
+  
+  console.log(flutterwaveResponse)
 
-  // videoInterior={detail? `url(${detail.data.interiorVideoUrl})` : null}
-
+  // videoInterior={?rl(${.a.interiorVideoUrl})` : null}
 
 //if the user is not signed in return to the redirect to the homepage else show the propertyinfo page
   if (!props.loggedIn) {
@@ -78,92 +173,109 @@ function PropertyInfo(props) {
       </Helmet>
 
       {/* if there is an error eg network error */}
-      {error ? <p>{error}</p> : null}
+      {/* {error ? <p>{error}</p> : null} */}
 
       <Headline>
         <PropertyVideos>
           <Thumbnail id="jumbotron">
-            {detail && interior && (
+            { interior && (
               <video width="99%" height="390px" controls autoPlay>
-                <source src={detail.data.interiorVideoUrl} type="video/mp4" />
+                {detail && <source src={detail.interiorVideoUrl} type="video/mp4" />}
               </video>
             )}
 
-            {detail && compound && (
+            { compound && isPaid && (
               <video width="100%" height="100%" controls autoPlay>
-                <source src={detail.data.compoundVideoUrl} type="video/mp4" />
+                {detail && <source src={detail.compoundVideoUrl} type="video/mp4" /> }
               </video>
             )}
 
-            {detail && street && (
+            { street && isPaid && (
               <video width="100%" height="100%" controls autoPlay>
-                <source src={detail.data.streetVideoUrl} type="video/mp4" />
+                {detail && <source src={detail.streetVideoUrl} type="video/mp4" /> }
               </video>
             )}
           </Thumbnail>
+
           {/* User select the video they want to watch */}
           <SelectThumbnail>
+            
             <StreetVideo onClick={handleStreetVideo}>
-              <Cover></Cover>
-              {detail && (
+              {isPaid &&
+              <>
                 <video width="100%" height="100%">
-                  <source src={detail.data.streetVideoUrl} type="video/mp4" />
+                  {detail && <source src={detail.streetVideoUrl} type="video/mp4" />}
                 </video>
-              )}
-              <p>Street</p>
+                <p>Street</p>
+              </>
+              }
+              {!isPaid &&
+              <>
+                <p>Street</p>
+                <Cover></Cover>
+              </>
+              }
             </StreetVideo>
+            
             <CompoundVideo onClick={handleCompoundVideo}>
-              <Cover></Cover>
-              {detail && (
+            {isPaid &&
+              <>
                 <video width="100%" height="100%">
-                  <source src={detail.data.compoundVideoUrl} type="video/mp4" />
+                  {detail && <source src={detail.compoundVideoUrl} type="video/mp4" />}
                 </video>
-              )}
-              <p>Compound</p>
+                <p>Compound</p>
+              </>
+            }
+            {!isPaid &&
+              <>
+                <p>Compound</p>
+                <Cover></Cover>
+              </>
+            }
             </CompoundVideo>
+
             <InteriorVideo onClick={handleInteriorVideo}>
-              {detail && (
                 <video width="100%" height="100%">
-                  <source src={detail.data.interiorVideoUrl} type="video/mp4" />
+                  {detail && <source src={detail.interiorVideoUrl} type="video/mp4" />}
                 </video>
-              )}
               <p>Interior</p>
             </InteriorVideo>
+
           </SelectThumbnail>
         </PropertyVideos>
 
         <DescGroup>
-          <Description>
-            {detail ? (
+          {/* <Description>
+            
               <>
                 <div>
-                  {/* <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span> */}
+                  <span><img src="../../../Assets/HouseIcon.svg" alt="houseIcon" /></span>
                   <span>
                     {" "}
                     {detail.data.roomType} Flat for {detail.data.category}
                   </span>
                 </div>
                 <div>
-                  {/* <span><img src="../../../Assets/location.svg" alt="locationIcon"/></span> */}
+                  <span><img src="../../../Assets/location.svg" alt="locationIcon"/></span>
                   <span>{detail.data.location}, Lagos.</span>
                 </div>
                 <div>
-                  {/* <span><img src="../../../Assets/NairaIcon.svg" alt="NairaIcon"/></span> */}
+                  <span><img src="../../../Assets/NairaIcon.svg" alt="NairaIcon"/></span>
                   <span>
                     <img src="../../../Assets/NairaBasket.svg" alt="" />
                   </span>
                   {detail.data.category === "Shortlet" ? (
                     <span>{detail.data.amount} per night</span>
-                  ) : (
+                  ):(
                     <span>{detail.data.amount} per annum</span>
                   )}
-                  {/* <span>per annum</span> */}
+                  <span>per annum</span>
                 </div>
               </>
-            ) : (
+            ):(
               <p>Something went wrong</p>
-            )}
-          </Description>
+            )
+          </Description> */}
 
           <PayPrompt>
             <p>
@@ -177,7 +289,7 @@ function PropertyInfo(props) {
             </p>
           </PayPrompt>
 
-          <App />
+          {!isPaid && <App setIsPaid={setIsPaid} />}
 
           {/* <PayButton>
                     <p>PAY N2,000 </p>
@@ -317,7 +429,7 @@ const Thumbnail = styled.div`
   /* background-image: ${(props) => props.videoInterior}; */
   /* background-repeat:  no-repeat; */
   /* background-size: cover; */
-  cursor: pointer;
+  /* cursor: pointer; */
   /* margin: auto; */
   position: relative;
 
@@ -358,13 +470,23 @@ const StreetVideo = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  /* justify-content: space-between; */
+  ;
 
+  
   & > p {
     font-size: 12px;
     line-height: 0px;
     margin: auto;
     font-weight: 600;
-    color: rgba(0, 0, 0, 0.5);
+    color: rgb(0, 0, 0);
+
+    
+    /* ${({isPaid}) => !isPaid &&
+      `color: rgba(0, 0, 0, 0.5);
+      `
+    } */
+
   }
 
   @media (max-width: 768px) {
@@ -385,7 +507,7 @@ const Cover = styled.div`
   height: 90%;
   position: absolute;
   background-color: #24272c;
-  background-color: rgba(36, 39, 44, 0.8);
+  background-color: rgba(36, 39, 44, 0.3);
 `;
 
 const ExtVid = styled.div`

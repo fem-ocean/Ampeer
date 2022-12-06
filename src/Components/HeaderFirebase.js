@@ -1,91 +1,129 @@
+//THIS HEADER IS TO BE USED FOR FIREBASE.
+
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+} from "firebase/auth";
+// import { auth} from "../firebase";
+import { db, provider } from "../firebase";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { gapi } from "gapi-script";
 import { signIn, signOutRedux } from "../Redux/userAction";
-import { db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 const clientId =
   "98761361459-de6kvpo6kjt8fph6kc3hosuh5pre3etk.apps.googleusercontent.com";
 
-function Header(props) {
+function HeaderFirebase(props) {
   const [username, setUsername] = useState(null);
   const [displaypic, setDisplaypic] = useState(null);
 
-  // const handleSignIn = () => {
-  //   signInWithPopup(auth, googleProvider)
-  //     .then((response) => {
-  //       console.log(response.user);
-  //       console.log(response.user.displayName);
-  //       setUsername(response.user.displayName);
-  //       setDisplaypic(response.user.photoURL)
+  const auth = getAuth();
 
-  //     })
-  //     .catch((err) => {
-  //       alert(err.message);
-  //     });
-  //     // console.log(user.photoURL)
+  const handleSignIn = () => {
+    signInWithPopup(auth, provider)
+      .then((response) => {
+        //To get access Token to use to access Google API
+        const credential = GoogleAuthProvider.credentialFromResult(response);
+        const token = credential.accessToken;
+        return response.user
+      })
+      .then(async (user)=>{
+        //User info
+        console.log(user);
+        console.log(user.displayName);
+        //Change state variables
+        await setDoc(doc(db,'Users',user.uid),{email: user.email, isPaid: false})
+        setUsername(user.displayName);
+        setDisplaypic(user.photoURL);
+        //Let the App know User has signed in in redux store
+        props.signIn()
+        console.log(db.collection('users'))
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
 
+  //   const onSuccess = async (res) => {
+  //     console.log("[Login Success] currentUser:", res.profileObj);
+  //     console.log(res.profileObj.name);
+  //     setUsername(res.profileObj.name);
+
+  //for id token
+  // var id_token = res.getAuthResponse().id_token;
+
+  //show id token in console for debugging
+  // console.log(id_token);
+
+  //Firebase
+  // const credential = GoogleAuthProvider.credential(id_token) //Build Firebase credential with the Google Id Token
+  // console.log(credential)
+  // signInWithCredential(auth, credential)
+
+  //dispatch action to the redux state and set loggedIn to True
+  // props.signIn();
+
+  //send the google user id token to the server using the POST method.
+  // var xhr = new XMLHttpRequest();
+  // xhr.open('POST', '"http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin');
+  // xhr.setRequestHeader('Content-Type', 'application/json');
+  // xhr.onload = function() {
+  //   console.log('Signed in as: ' + xhr.responseText);
   // };
 
-  const onSuccess = async (res) => {
-    console.log("[Login Success] currentUser:", res.profileObj);
-    console.log(res.profileObj.name);
-    setUsername(res.profileObj.name);
+  // const y = xhr.send('idtoken=' + id_token);
+  // console.log('y is '+ y)
 
-    //for id token
-    var id_token = res.getAuthResponse().id_token;
-    
-    console.log(id_token);  //show id token in console for debugging
-    
-    props.signIn(); //dispatch action to the redux state and set loggedIn to True
+  // await fetch("http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin", {
+  //   method: "POST",
+  //   headers:""
+  // })
+  //   };
 
-    //send the google user id token to the server using the POST method.
-    // var xhr = new XMLHttpRequest();
-    // xhr.open('POST', '"http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin');
-    // xhr.setRequestHeader('Content-Type', 'application/json');
-    // xhr.onload = function() {
-    //   console.log('Signed in as: ' + xhr.responseText);
-    // };
-
-    // const y = xhr.send('idtoken=' + id_token);
-    // console.log('y is '+ y)
-
-    // await fetch("http://ampeer-001-site1.gtempurl.com/api/Account/ExternalLogin", {
-    //   method: "POST",
-    //   headers:""
-    // })
-  };
-
-  const onFailure = (res) => {
-    console.log("[Login Failed]");
-  };
+  //   const onFailure = (res) => {
+  //     console.log("[Login Failed]");
+  //   };
 
   const logOutSuccess = () => {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2
-      .signOut()
-
+    signOut(auth)
       .then(() => {
         setUsername(null);
-        props.signOutRedux();  //for redux to set signIn to false
-
-        alert("You have successfully Logged out");
+        props.signOutRedux()
+        alert("You have Successfully Signed Out");
+      })
+      .catch((err) => {
+        alert("Something went wrong");
       });
+
+    // var auth2 = gapi.auth2.getAuthInstance();
+    // auth2
+    //   .signOut()
+
+    //   .then(() => {
+    //     setUsername(null);
+    //     props.signOutRedux();  //for redux to set signIn to false
+
+    //     alert("You have successfully Logged out");
+    //   });
   };
 
-  useEffect(() => {
-    function start() {
-      gapi.auth2.init({
-        clientId: clientId,
-        scope: "",
-      });
-    }
+  //   useEffect(() => {
+  //     function start() {
+  //       gapi.auth2.init({
+  //         clientId: clientId,
+  //         scope: "",
+  //       });
+  //     }
 
-    gapi.load("auth2", start);
-  }, [username]);
+  //     gapi.load("auth2", start);
+  //   }, [username]);
 
   // var accessToken = gapi.auth.getToken().access_token;  //foraccess token
 
@@ -101,16 +139,17 @@ function Header(props) {
         </LogoContainer>
 
         {!username ? (
-          <GoogleLogin
-            clientId={clientId}
-            buttonText="Login"
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={"single_host_origin"}
-            isSignedIn={true} 
-            className="googlelogin"
-          />
+          <button onClick={handleSignIn}>Sign In</button>
         ) : (
+          //   <GoogleLogin
+          //     clientId={clientId}
+          //     buttonText="Login"
+          //     onSuccess={handleSignIn}
+          //     onFailure={onFailure}
+          //     cookiePolicy={"single_host_origin"}
+          //     isSignedIn={true}
+          //     className="googlelogin"
+          //   />
           <>
             <SignOut>
               <p>
@@ -270,4 +309,4 @@ const LogoContainer = styled.div`
   }
 `;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderFirebase);

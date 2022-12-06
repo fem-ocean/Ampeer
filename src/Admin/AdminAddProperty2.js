@@ -15,8 +15,6 @@ function AdminAddProperty() {
     "4+ Bedrooms",
   ];
 
-
-
   const areaOptions = [
     "Oniru",
     "Lekki Phase 1",
